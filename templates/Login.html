@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - POS Transaction Web App</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #0b5ed7,
+                #063970
+            );
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0, 0, 0, 0.20);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+
+            color: #0b5ed7;
+
+            font-size: 30px;
+        }
+
+        .header h2 {
+            margin: 10px 0 5px;
+
+            color: #333;
+
+            font-size: 22px;
+        }
+
+        .header p {
+            margin: 0;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+
+            border-color: #0b5ed7;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(11, 94, 215, 0.10);
+        }
+
+        .login-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #0b5ed7;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #084298;
+        }
+
+        .register-section {
+            text-align: center;
+
+            margin-top: 22px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #eee;
+
+            color: #666;
+
+            font-size: 14px;
+        }
+
+        .register-section a {
+            color: #0b5ed7;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .register-section a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+
+            color: #842029;
+
+            border: 1px solid #f5c2c7;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+
+            color: #664d03;
+
+            border: 1px solid #ffecb5;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+
+            color: #0f5132;
+
+            border: 1px solid #badbcc;
+        }
+
+        .alert-info {
+            background: #cff4fc;
+
+            color: #055160;
+
+            border: 1px solid #b6effb;
+        }
+
+        .forgot-password {
+            text-align: right;
+
+            margin-top: 8px;
+        }
+
+        .forgot-password a {
+            color: #0b5ed7;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .security-message {
+            margin-top: 20px;
+
+            padding: 12px;
+
+            background: #f1f7ff;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            color: #555;
+        }
+
+        @media (max-width: 500px) {
+
+            .login-container {
+                padding: 10px;
+            }
+
+            .login-card {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+    <div class="login-card">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                POS TRANSACTION
+            </h1>
+
+            <h2>
+                Login
+            </h2>
+
+            <p>
+                Send and receive money securely.
+            </p>
+
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages =
+            get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- LOGIN FORM -->
+
+        <form
+            method="POST"
+            action="{{ url_for('login') }}"
+        >
+
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+                <label for="username">
+
+                    Username
+
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+                <div class="forgot-password">
+
+                    <a href="#">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+        <!-- REGISTER LINK -->
+
+        <div class="register-section">
+
+            Don't have an account?
+
+            <a href="{{ url_for('register') }}">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <!-- SECURITY MESSAGE -->
+
+        <div class="security-message">
+
+            🔒 Your login information is protected.
+            Never share your password or transaction PIN.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

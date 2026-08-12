@@ -1,0 +1,14 @@
+import  bcrypt
+
+def hash_transaction_pin(pin):
+    """Hash a transaction PIN."""
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pin.encode("utf-8"), salt).decode("utf-8")
+
+
+def verify_transaction_pin(pin, hashed_pin):
+    """Verify a transaction PIN."""
+    return bcrypt.checkpw(
+        pin.encode("utf-8"),
+        hashed_pin.encode("utf-8")
+    )

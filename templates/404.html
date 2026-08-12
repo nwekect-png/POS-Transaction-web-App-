@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Photo - POS Transaction</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .header{
+            background:#0d6efd;
+            color:white;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .header a{
+            color:white;
+            text-decoration:none;
+            margin-left:10px;
+        }
+
+        .container{
+            max-width:600px;
+            margin:40px auto;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+
+        .profile-image{
+            width:150px;
+            height:150px;
+            border-radius:50%;
+            object-fit:cover;
+            border:5px solid #0d6efd;
+            margin-bottom:20px;
+        }
+
+        .default-image{
+            width:150px;
+            height:150px;
+            border-radius:50%;
+            background:#0d6efd;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:60px;
+            margin:0 auto 20px;
+        }
+
+        input[type=file]{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            margin:15px 0;
+        }
+
+        button{
+            width:100%;
+            padding:14px;
+            border:none;
+            background:#0d6efd;
+            color:white;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:16px;
+            font-weight:bold;
+        }
+
+        button:hover{
+            background:#0b5ed7;
+        }
+
+        .cancel{
+            display:block;
+            margin-top:15px;
+            text-decoration:none;
+            background:#6c757d;
+            color:white;
+            padding:14px;
+            border-radius:6px;
+        }
+
+        .cancel:hover{
+            background:#5c636a;
+        }
+
+        .flash{
+            padding:12px;
+            margin-bottom:15px;
+            border-radius:6px;
+        }
+
+        .success{
+            background:#d1e7dd;
+            color:#0f5132;
+        }
+
+        .danger{
+            background:#f8d7da;
+            color:#842029;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h2>💳 POS Transaction</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>📷 Profile Photo</h2>
+
+        <br>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Current Photo -->
+
+        {% if current_user.photo %}
+            <img
+                src="{{ url_for('static', filename='uploads/' + current_user.photo) }}"
+                class="profile-image">
+        {% else %}
+            <div class="default-image">
+                {{ current_user.full_name[0]|upper }}
+            </div>
+        {% endif %}
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              action="{{ url_for('photo') }}">
+
+            <input type="file"
+                   name="photo"
+                   accept=".jpg,.jpeg,.png"
+                   required>
+
+            <button type="submit">
+                Upload Photo
+            </button>
+
+        </form>
+
+        <a href="{{ url_for('profile') }}"
+           class="cancel">
+
+            Back to Profile
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

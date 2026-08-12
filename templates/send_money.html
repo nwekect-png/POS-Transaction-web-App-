@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Send Money - POS Transaction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* HEADER */
+        .header {
+            background: #0d6efd;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 16px;
+            border-radius: 6px;
+        }
+
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 92%;
+            max-width: 650px;
+            margin: 40px auto;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        /* CARD HEADER */
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .send-icon {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .card-header h2 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            color: #777;
+            line-height: 1.5;
+        }
+
+        /* BALANCE */
+        .balance-box {
+            background: #e7f1ff;
+
+            border-left: 5px solid #0d6efd;
+
+            padding: 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+        }
+
+        .balance-box p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .balance-box strong {
+            color: #084298;
+            font-size: 25px;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #0d6efd;
+
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* HELP TEXT */
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* SEND BUTTON */
+        .send-button {
+            width: 100%;
+
+            border: none;
+
+            background: #6f42c1;
+
+            color: white;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .send-button:hover {
+            background: #59359c;
+        }
+
+        /* CANCEL */
+        .cancel-button {
+            display: block;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            margin-top: 15px;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            background: #6c757d;
+
+            color: white;
+
+            font-weight: bold;
+        }
+
+        .cancel-button:hover {
+            background: #5c636a;
+        }
+
+        /* FLASH MESSAGES */
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px;
+
+            border-radius: 7px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        /* SECURITY */
+        .security {
+            margin-top: 25px;
+
+            padding: 18px;
+
+            background: #f8f9fa;
+
+            border-radius: 8px;
+
+            border: 1px solid #ddd;
+        }
+
+        .security h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .security p {
+            color: #666;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+
+            color: #777;
+
+            padding: 25px;
+
+            margin-top: 20px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .send-icon {
+                font-size: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <h1>💳 POS Transaction</h1>
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <div class="card">
+
+            <!-- CARD HEADER -->
+            <div class="card-header">
+
+                <div class="send-icon">
+                    📤
+                </div>
+
+                <h2>Send Money</h2>
+
+                <p>
+                    Transfer money securely to another person.
+                </p>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div class="flash {{ category }}">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- CURRENT BALANCE -->
+            <div class="balance-box">
+
+                <p>
+                    Available Wallet Balance
+                </p>
+
+                <strong>
+                    ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+                </strong>
+
+            </div>
+
+
+            <!-- SEND MONEY FORM -->
+            <form method="POST"
+                  action="{{ url_for('send_money') }}">
+
+                <!-- RECIPIENT -->
+                <div class="form-group">
+
+                    <label for="recipient">
+                        Recipient Username / Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recipient"
+                        name="recipient"
+                        placeholder="Enter recipient username or phone"
+                        required
+                    >
+
+                    <span class="help-text">
+                        Enter the registered username or phone number
+                        of the person receiving the money.
+                    </span>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount (₦)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        min="1"
+                        step="0.01"
+                        placeholder="Enter amount to send"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="What is this payment for? (optional)"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- TRANSACTION PIN -->
+                <div class="form-group">
+
+                    <label for="transaction_pin">
+                        Transaction PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="transaction_pin"
+                        name="transaction_pin"
+                        minlength="4"
+                        maxlength="6"
+                        inputmode="numeric"
+                        placeholder="Enter your transaction PIN"
+                        required
+                    >
+
+                    <span class="help-text">
+                        Your PIN is required to authorize this transaction.
+                    </span>
+
+                </div>
+
+
+                <!-- SEND BUTTON -->
+                <button
+                    type="submit"
+                    class="send-button">
+
+                    📤 Send Money
+
+                </button>
+
+            </form>
+
+
+            <!-- CANCEL -->
+            <a href="{{ url_for('wallet') }}"
+               class="cancel-button">
+
+                Cancel
+
+            </a>
+
+
+            <!-- SECURITY NOTICE -->
+            <div class="security">
+
+                <h3>🔒 Security Notice</h3>
+
+                <p>
+                    Confirm the recipient's details and amount before
+                    sending. Never share your transaction PIN with
+                    anyone. Transactions should be authorized and
+                    validated on the server.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 POS Transaction Web App
+        </p>
+
+        <p>
+            Secure Money Transfer
+        </p>
+
+    </footer>
+
+</body>
+</html>

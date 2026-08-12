@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Account - POS Transaction</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #0d6efd;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 6px;
+
+            background: rgba(255,255,255,0.15);
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 94%;
+            max-width: 600px;
+
+            margin: 50px auto;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .delete-card {
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        /* =========================
+           ICON
+        ========================= */
+
+        .warning-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #f8d7da;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 45px;
+        }
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .delete-card h2 {
+            color: #dc3545;
+
+            margin-bottom: 12px;
+        }
+
+        .delete-card .description {
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           ACCOUNT INFO
+        ========================= */
+
+        .account-info {
+            background: #f8f9fa;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 18px;
+
+            margin-bottom: 25px;
+
+            text-align: left;
+        }
+
+        .account-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 10px 0;
+
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .account-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #777;
+        }
+
+        .value {
+            font-weight: bold;
+
+            text-align: right;
+        }
+
+        /* =========================
+           WARNING
+        ========================= */
+
+        .warning-box {
+            background: #fff3cd;
+
+            border-left: 5px solid #ffc107;
+
+            padding: 18px;
+
+            border-radius: 7px;
+
+            margin-bottom: 25px;
+
+            text-align: left;
+        }
+
+        .warning-box h3 {
+            color: #664d03;
+
+            margin-bottom: 8px;
+
+            font-size: 17px;
+        }
+
+        .warning-box ul {
+            padding-left: 20px;
+
+            color: #664d03;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #dc3545;
+
+            box-shadow:
+                0 0 0 3px rgba(220,53,69,0.10);
+        }
+
+        /* =========================
+           CHECKBOX
+        ========================= */
+
+        .confirmation {
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+
+            text-align: left;
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        .confirmation input {
+            margin-top: 4px;
+
+            width: 17px;
+            height: 17px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+            display: flex;
+
+            gap: 12px;
+        }
+
+        .button {
+            flex: 1;
+
+            padding: 14px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            border: none;
+
+            font-size: 15px;
+
+            text-align: center;
+        }
+
+        .cancel {
+            background: #6c757d;
+
+            color: white;
+        }
+
+        .cancel:hover {
+            background: #5c636a;
+        }
+
+        .delete {
+            background: #dc3545;
+
+            color: white;
+        }
+
+        .delete:hover {
+            background: #bb2d3b;
+        }
+
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px;
+
+            border-radius: 7px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+            text-align: left;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .header-links a {
+                padding: 8px 10px;
+
+                font-size: 13px;
+            }
+
+            .container {
+                margin: 30px auto;
+            }
+
+            .delete-card {
+                padding: 25px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <h1>💳 POS Transaction</h1>
+
+    <div class="header-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('settings') }}">
+            Settings
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+    <div class="delete-card">
+
+
+        <!-- WARNING ICON -->
+
+        <div class="warning-icon">
+            ⚠️
+        </div>
+
+
+        <h2>
+            Delete Account
+        </h2>
+
+
+        <p class="description">
+
+            You are about to permanently delete your
+            POS Transaction account. Please review the
+            information below before continuing.
+
+        </p>
+
+
+        <!-- =========================
+             FLASH MESSAGES
+        ========================= -->
+
+        {% with messages =
+            get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =========================
+             ACCOUNT INFORMATION
+        ========================= -->
+
+        <div class="account-info">
+
+            <div class="account-row">
+
+                <span class="label">
+                    Name
+                </span>
+
+                <span class="value">
+                    {{ current_user.full_name }}
+                </span>
+
+            </div>
+
+
+            <div class="account-row">
+
+                <span class="label">
+                    Username
+                </span>
+
+                <span class="value">
+                    {{ current_user.username }}
+                </span>
+
+            </div>
+
+
+            <div class="account-row">
+
+                <span class="label">
+                    Email
+                </span>
+
+                <span class="value">
+                    {{ current_user.email }}
+                </span>
+
+            </div>
+
+
+            <div class="account-row">
+
+                <span class="label">
+                    Account Status
+                </span>
+
+                <span class="value">
+                    {{ current_user.status }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             WARNING
+        ========================= -->
+
+        <div class="warning-box">
+
+            <h3>
+                ⚠️ Before you continue
+            </h3>
+
+            <ul>
+
+                <li>
+                    Your account may no longer be accessible.
+                </li>
+
+                <li>
+                    Your transaction history may need to be
+                    retained for legal or financial records.
+                </li>
+
+                <li>
+                    Any remaining wallet balance should be
+                    resolved before account closure.
+                </li>
+
+                <li>
+                    This action should not be performed
+                    accidentally.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- =========================
+             DELETE FORM
+        ========================= -->
+
+        <form
+            method="POST"
+            action="{{ url_for('delete_account') }}"
+            onsubmit="return confirmDeletion();">
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Enter Your Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <!-- CONFIRMATION -->
+
+            <label class="confirmation">
+
+                <input
+                    type="checkbox"
+                    id="confirm_delete"
+                    name="confirm_delete"
+                    value="yes"
+                    required
+                >
+
+                <span>
+
+                    I understand that deleting my account is
+                    a serious action and I confirm that I want
+                    to close my POS Transaction account.
+
+                </span>
+
+            </label>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <a
+                    href="{{ url_for('settings') }}"
+                    class="button cancel">
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="button delete">
+
+                    🗑️ Delete Account
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 POS Transaction Web App
+    </p>
+
+    <p>
+        🔒 Secure Account Management
+    </p>
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    function confirmDeletion() {
+
+        const confirmed =
+            document.getElementById(
+                "confirm_delete"
+            ).checked;
+
+        if (!confirmed) {
+
+            alert(
+                "Please confirm that you want to delete your account."
+            );
+
+            return false;
+
+        }
+
+
+        const finalConfirmation = confirm(
+            "Are you sure you want to delete your POS Transaction account? This action cannot be easily undone."
+        );
+
+
+        return finalConfirmation;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

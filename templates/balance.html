@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wallet Balance - POS Transaction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: #0d6efd;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.15);
+            padding: 10px 16px;
+            border-radius: 6px;
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Main container */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        /* Welcome */
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 28px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #0d6efd, #084298);
+            color: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .balance-card .label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .balance {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .account-name {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Actions */
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            padding: 16px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .deposit {
+            background: #198754;
+        }
+
+        .withdraw {
+            background: #dc3545;
+        }
+
+        .send {
+            background: #6f42c1;
+        }
+
+        .receive {
+            background: #fd7e14;
+        }
+
+        /* Information card */
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .info-card h3 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row span:first-child {
+            color: #666;
+        }
+
+        .info-row span:last-child {
+            font-weight: bold;
+        }
+
+        /* Transaction button */
+        .history-btn {
+            display: block;
+            width: 100%;
+            background: #212529;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .history-btn:hover {
+            background: #343a40;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .balance {
+                font-size: 32px;
+            }
+
+            .actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-card {
+                padding: 25px;
+            }
+
+            .balance {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+
+        <h1>💳 POS Transaction</h1>
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Welcome -->
+        <section class="welcome">
+
+            <h2>Wallet Balance</h2>
+
+            <p>
+                View your available balance and manage your money.
+            </p>
+
+        </section>
+
+
+        <!-- Balance Card -->
+        <section class="balance-card">
+
+            <div class="label">
+                Available Balance
+            </div>
+
+            <div class="balance">
+                ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+            </div>
+
+            <div class="account-name">
+                Account Holder:
+                {{ current_user.full_name }}
+            </div>
+
+        </section>
+
+
+        <!-- Quick Actions -->
+        <section class="actions">
+
+            <a href="{{ url_for('deposit') }}"
+               class="action-btn deposit">
+                💰 Deposit
+            </a>
+
+            <a href="{{ url_for('withdrawal') }}"
+               class="action-btn withdraw">
+                💸 Withdraw
+            </a>
+
+            <a href="{{ url_for('send_money') }}"
+               class="action-btn send">
+                📤 Send Money
+            </a>
+
+            <a href="{{ url_for('receive_money') }}"
+               class="action-btn receive">
+                📥 Receive Money
+            </a>
+
+        </section>
+
+
+        <!-- Account Information -->
+        <section class="info-card">
+
+            <h3>Account Information</h3>
+
+            <div class="info-row">
+                <span>Full Name</span>
+                <span>
+                    {{ current_user.full_name }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Username</span>
+                <span>
+                    {{ current_user.username }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Email</span>
+                <span>
+                    {{ current_user.email }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Phone</span>
+                <span>
+                    {{ current_user.phone }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Account Status</span>
+                <span>
+                    {{ current_user.status }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Account Type</span>
+                <span>
+                    {{ current_user.role }}
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span>Wallet Balance</span>
+                <span>
+                    ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+                </span>
+            </div>
+
+        </section>
+
+
+        <!-- Transaction History -->
+        <a href="{{ url_for('transaction_history') }}"
+           class="history-btn">
+            📋 View Transaction History
+        </a>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 POS Transaction Web App
+        </p>
+
+        <p>
+            🔒 Your financial information is protected.
+        </p>
+
+    </footer>
+
+</body>
+</html>

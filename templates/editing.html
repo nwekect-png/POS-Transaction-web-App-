@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile - POS Transaction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .navbar {
+            background: #0b5ed7;
+            color: white;
+            padding: 16px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 21px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 650px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0b5ed7;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            background: #e8f4ff;
+            color: #0756a3;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 2px rgba(11, 94, 215, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .save-btn {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #084db2;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: #555d63;
+        }
+
+        .security-note {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            margin: 30px 0;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <div class="navbar">
+        <h2>POS TRANSACTION</h2>
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Edit Profile</h1>
+
+            <p class="subtitle">
+                Update your personal account information
+            </p>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Edit Form -->
+            <form method="POST"
+                  action="{{ url_for('editing') }}">
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ current_user.full_name or '' }}"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ current_user.username or '' }}"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ current_user.email or '' }}"
+                        placeholder="Enter your email address"
+                        required
+                    >
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ current_user.phone or '' }}"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+                </div>
+
+                <!-- Buttons -->
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="btn save-btn">
+                        Save Changes
+                    </button>
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="btn cancel-btn">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+            <!-- Security Information -->
+            <div class="security-note">
+                <strong>Security:</strong><br>
+                Do not enter your transaction PIN or account password
+                on this page. Use the dedicated Change Password or
+                Change PIN pages to update security credentials.
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 POS Transaction Web App.
+        Secure sending and receiving of money.
+    </div>
+
+</body>
+</html>

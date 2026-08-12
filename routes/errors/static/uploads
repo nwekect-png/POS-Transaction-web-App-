@@ -1,0 +1,58 @@
+from werkzeug.utils import secure_filename
+from flask import request, redirect, url_for, flash, render_template
+from flask_login import login_required, current_user
+
+@app.route("/photo", methods=["GET", "POST"])
+@login_required
+def photo():
+
+    if request.method == "POST":
+
+        if "photo" not in request.files:
+            flash("Please select a photo.", "danger")
+            return redirect(url_for("photo"))
+
+        file = request.files["photo"]
+
+        if file.filename == "":
+            flash("Please select a photo.", "danger")
+            return redirect(url_for("photo"))
+
+        if not allowed_file(file.filename):
+            flash(
+                "Only JPG, JPEG, PNG and GIF images are allowed.",
+                "danger"
+            )
+            return redirect(url_for("photo"))
+
+        filename = secure_filename(file.filename)
+
+        # Give the file a unique name
+        filename = f"user_{current_user.id}_{filename}"
+
+        upload_folder = app.config["UPLOAD_FOLDER"]
+
+        os.makedirs(
+            upload_folder,
+            exist_ok=True
+        )
+
+        filepath = os.path.join(
+            upload_folder,
+            filename
+        )
+
+        file.save(filepath)
+
+        current_user.photo = filename
+
+        db.session.commit()
+
+        flash(
+            "Profile photo uploaded successfully.",
+            "success"
+        )
+
+        return redirect(url_for("profile"))
+
+    return render_template("photo.html")
