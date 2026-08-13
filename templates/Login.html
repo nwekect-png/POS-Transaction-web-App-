@@ -1,82 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - POS Transaction Web App</title>
+    <title>Login - POS Transaction</title>
 
     <style>
-
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             min-height: 100vh;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
-            font-family: Arial, Helvetica, sans-serif;
-
-            background: linear-gradient(
-                135deg,
-                #0b5ed7,
-                #063970
-            );
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            padding: 20px;
         }
 
         .login-container {
             width: 100%;
-            max-width: 450px;
-            padding: 20px;
+            max-width: 420px;
         }
 
         .login-card {
-            background: white;
+            background: #ffffff;
+            border-radius: 18px;
             padding: 35px;
-            border-radius: 15px;
-
-            box-shadow:
-                0 10px 35px
-                rgba(0, 0, 0, 0.20);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            margin: 0;
-
-            color: #0b5ed7;
-
+        .logo {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 30px;
+            font-weight: bold;
         }
 
-        .header h2 {
-            margin: 10px 0 5px;
-
-            color: #333;
-
-            font-size: 22px;
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 8px;
+            font-size: 28px;
         }
 
-        .header p {
-            margin: 0;
-
-            color: #777;
-
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
             font-size: 14px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
         }
 
         .form-group {
@@ -85,311 +95,302 @@
 
         label {
             display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-            margin-bottom: 7px;
+        .input-wrapper {
+            position: relative;
+        }
 
-            font-weight: bold;
-
-            color: #333;
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #6b7280;
         }
 
         input {
             width: 100%;
-
-            padding: 13px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 8px;
-
+            padding: 13px 14px 13px 45px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            outline: none;
             font-size: 15px;
+            transition: 0.2s;
         }
 
         input:focus {
-            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
 
-            border-color: #0b5ed7;
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 14px;
+        }
 
-            box-shadow:
-                0 0 0 2px
-                rgba(11, 94, 215, 0.10);
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #4b5563;
+        }
+
+        .remember input {
+            width: auto;
+            padding: 0;
+        }
+
+        .forgot {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
         }
 
         .login-button {
             width: 100%;
-
             padding: 14px;
-
             border: none;
-
-            border-radius: 8px;
-
-            background: #0b5ed7;
-
+            border-radius: 9px;
+            background: #2563eb;
             color: white;
-
             font-size: 16px;
-
             font-weight: bold;
-
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .login-button:hover {
-            background: #084298;
+            background: #1d4ed8;
         }
 
-        .register-section {
-            text-align: center;
-
-            margin-top: 22px;
-
-            padding-top: 18px;
-
-            border-top: 1px solid #eee;
-
-            color: #666;
-
-            font-size: 14px;
+        .login-button:active {
+            transform: scale(0.98);
         }
 
-        .register-section a {
-            color: #0b5ed7;
-
-            text-decoration: none;
-
-            font-weight: bold;
-        }
-
-        .register-section a:hover {
-            text-decoration: underline;
-        }
-
-        .alert {
-            padding: 12px 15px;
-
-            border-radius: 8px;
-
-            margin-bottom: 18px;
-
-            font-size: 14px;
-        }
-
-        .alert-danger {
-            background: #f8d7da;
-
-            color: #842029;
-
-            border: 1px solid #f5c2c7;
-        }
-
-        .alert-warning {
-            background: #fff3cd;
-
-            color: #664d03;
-
-            border: 1px solid #ffecb5;
-        }
-
-        .alert-success {
-            background: #d1e7dd;
-
-            color: #0f5132;
-
-            border: 1px solid #badbcc;
-        }
-
-        .alert-info {
-            background: #cff4fc;
-
-            color: #055160;
-
-            border: 1px solid #b6effb;
-        }
-
-        .forgot-password {
-            text-align: right;
-
-            margin-top: 8px;
-        }
-
-        .forgot-password a {
-            color: #0b5ed7;
-
-            text-decoration: none;
-
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            color: #9ca3af;
             font-size: 13px;
         }
 
-        .forgot-password a:hover {
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .register {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register a:hover {
             text-decoration: underline;
         }
 
         .security-message {
-            margin-top: 20px;
-
-            padding: 12px;
-
-            background: #f1f7ff;
-
-            border-radius: 8px;
-
+            margin-top: 22px;
             text-align: center;
-
             font-size: 12px;
-
-            color: #555;
+            color: #6b7280;
+            line-height: 1.5;
         }
 
-        @media (max-width: 500px) {
+        .security-icon {
+            color: #16a34a;
+            font-size: 16px;
+        }
 
-            .login-container {
-                padding: 10px;
-            }
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+        }
 
+        @media (max-width: 480px) {
             .login-card {
                 padding: 25px 20px;
             }
 
-            .header h1 {
-                font-size: 25px;
+            h1 {
+                font-size: 24px;
             }
-
         }
-
     </style>
-
 </head>
 
-
 <body>
-
 
 <div class="login-container">
 
     <div class="login-card">
 
-
-        <!-- HEADER -->
-
-        <div class="header">
-
-            <h1>
-                POS TRANSACTION
-            </h1>
-
-            <h2>
-                Login
-            </h2>
-
-            <p>
-                Send and receive money securely.
-            </p>
-
+        <div class="logo">
+            ₦
         </div>
 
+        <h1>POS TRANSACTION</h1>
 
-        <!-- FLASH MESSAGES -->
+        <p class="subtitle">
+            Send and receive money securely
+        </p>
 
-        {% with messages =
-            get_flashed_messages(with_categories=true) %}
 
+        <!-- Flask Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
 
                 {% for category, message in messages %}
 
                     <div class="alert alert-{{ category }}">
-
                         {{ message }}
-
                     </div>
 
                 {% endfor %}
 
             {% endif %}
-
         {% endwith %}
 
 
-        <!-- LOGIN FORM -->
+        <!-- Login Form -->
+        <form method="POST" action="{{ url_for('login') }}">
 
-        <form
-            method="POST"
-            action="{{ url_for('login') }}"
-        >
-
-
-            <!-- USERNAME -->
-
+            <!-- Username -->
             <div class="form-group">
 
                 <label for="username">
-
                     Username
-
                 </label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    autocomplete="username"
-                    required
-                >
+                <div class="input-wrapper">
 
-            </div>
+                    <span class="input-icon">👤</span>
 
-
-            <!-- PASSWORD -->
-
-            <div class="form-group">
-
-                <label for="password">
-
-                    Password
-
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
-                    required
-                >
-
-
-                <div class="forgot-password">
-
-                    <a href="#">
-                        Forgot Password?
-                    </a>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        required
+                        autocomplete="username"
+                    >
 
                 </div>
 
             </div>
 
 
-            <!-- LOGIN BUTTON -->
+            <!-- Password -->
+            <div class="form-group">
 
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">🔒</span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()"
+                        id="toggleButton"
+                    >
+                        Show
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Options -->
+            <div class="options">
+
+                <label class="remember">
+                    <input
+                        type="checkbox"
+                        name="remember"
+                    >
+                    Remember me
+                </label>
+
+                <a
+                    href="{{ url_for('forgot_password') if 'forgot_password' in url_map else '#' }}"
+                    class="forgot"
+                >
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <!-- Login Button -->
             <button
                 type="submit"
                 class="login-button"
             >
-
                 Login
-
             </button>
-
 
         </form>
 
 
-        <!-- REGISTER LINK -->
+        <div class="divider">
+            OR
+        </div>
 
-        <div class="register-section">
+
+        <!-- Register -->
+        <div class="register">
 
             Don't have an account?
 
@@ -400,21 +401,65 @@
         </div>
 
 
-        <!-- SECURITY MESSAGE -->
-
+        <!-- Security -->
         <div class="security-message">
 
-            🔒 Your login information is protected.
+            <span class="security-icon">🔒</span>
+
+            Your login information is protected.
             Never share your password or transaction PIN.
 
         </div>
 
+    </div>
 
+
+    <div class="footer">
+        © 2026 POS Transaction Web App. All rights reserved.
     </div>
 
 </div>
 
 
-</body>
+<script>
 
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.getElementById("toggleButton");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            button.textContent = "Hide";
+
+        } else {
+
+            password.type = "password";
+
+            button.textContent = "Show";
+
+        }
+    }
+
+
+    // Prevent double submission
+    document.querySelector("form").addEventListener("submit", function () {
+
+        const button =
+            document.querySelector(".login-button");
+
+        button.disabled = true;
+
+        button.textContent = "Logging in...";
+
+    });
+
+</script>
+
+</body>
 </html>
