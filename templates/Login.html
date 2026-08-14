@@ -2,464 +2,190 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login - POS Transaction</title>
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
+            margin: 0;
             min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f172a, #1e3a8a);
-            padding: 20px;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .login-card {
-            background: #ffffff;
-            border-radius: 18px;
+        .login-box {
+            width: 400px;
+            max-width: 90%;
+            background: white;
             padding: 35px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-        }
-
-        .logo {
-            width: 75px;
-            height: 75px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            background: #2563eb;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            font-weight: bold;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.10);
         }
 
         h1 {
             text-align: center;
-            color: #111827;
-            margin-bottom: 8px;
-            font-size: 28px;
+            color: #123c69;
+            margin-bottom: 5px;
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-            font-size: 14px;
+            color: #777;
+            margin-bottom: 25px;
         }
 
-        .alert {
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-            font-size: 14px;
-        }
-
-        .alert-success {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #86efac;
-        }
-
-        .alert-danger {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        .alert-warning {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fcd34d;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
+        .message {
+            padding: 12px;
+            margin-bottom: 15px;
+            background: #fde8e8;
+            color: #b42318;
+            border-radius: 6px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #374151;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: #6b7280;
+            margin-bottom: 7px;
+            font-weight: bold;
         }
 
         input {
             width: 100%;
-            padding: 13px 14px 13px 45px;
-            border: 1px solid #d1d5db;
-            border-radius: 9px;
-            outline: none;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
             font-size: 15px;
-            transition: 0.2s;
         }
 
-        input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-            font-size: 13px;
-        }
-
-        .remember {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            color: #4b5563;
-        }
-
-        .remember input {
-            width: auto;
-            padding: 0;
-        }
-
-        .forgot {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .forgot:hover {
-            text-decoration: underline;
-        }
-
-        .login-button {
+        button {
             width: 100%;
             padding: 14px;
             border: none;
-            border-radius: 9px;
-            background: #2563eb;
+            border-radius: 7px;
+            background: #123c69;
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
         }
 
-        .login-button:hover {
-            background: #1d4ed8;
-        }
-
-        .login-button:active {
-            transform: scale(0.98);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 25px 0;
-            color: #9ca3af;
-            font-size: 13px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
+        button:hover {
+            background: #0d3156;
         }
 
         .register {
             text-align: center;
-            color: #6b7280;
-            font-size: 14px;
+            margin-top: 20px;
         }
 
         .register a {
-            color: #2563eb;
-            text-decoration: none;
+            color: #123c69;
             font-weight: bold;
+            text-decoration: none;
         }
 
-        .register a:hover {
-            text-decoration: underline;
-        }
-
-        .security-message {
-            margin-top: 22px;
+        .security {
             text-align: center;
+            margin-top: 20px;
+            color: #777;
             font-size: 12px;
-            color: #6b7280;
-            line-height: 1.5;
-        }
-
-        .security-icon {
-            color: #16a34a;
-            font-size: 16px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 18px;
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 12px;
-        }
-
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 25px 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="login-container">
+<div class="login-box">
 
-    <div class="login-card">
+    <h1>💳 POS TRANSACTION</h1>
 
-        <div class="logo">
-            ₦
-        </div>
+    <p class="subtitle">
+        Send and receive money securely
+    </p>
 
-        <h1>POS TRANSACTION</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
 
-        <p class="subtitle">
-            Send and receive money securely
-        </p>
+        {% if messages %}
 
+            {% for category, message in messages %}
 
-        <!-- Flask Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-
-                {% for category, message in messages %}
-
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-
-            {% endif %}
-        {% endwith %}
-
-
-        <!-- Login Form -->
-        <form method="POST" action="{{ url_for('login') }}">
-
-            <!-- Username -->
-            <div class="form-group">
-
-                <label for="username">
-                    Username
-                </label>
-
-                <div class="input-wrapper">
-
-                    <span class="input-icon">👤</span>
-
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        placeholder="Enter your username"
-                        required
-                        autocomplete="username"
-                    >
-
+                <div class="message">
+                    {{ message }}
                 </div>
 
-            </div>
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
 
 
-            <!-- Password -->
-            <div class="form-group">
+    <form method="POST" action="/login">
 
-                <label for="password">
-                    Password
-                </label>
+        <label for="username">
+            Username
+        </label>
 
-                <div class="input-wrapper">
-
-                    <span class="input-icon">🔒</span>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        required
-                        autocomplete="current-password"
-                    >
-
-                    <button
-                        type="button"
-                        class="password-toggle"
-                        onclick="togglePassword()"
-                        id="toggleButton"
-                    >
-                        Show
-                    </button>
-
-                </div>
-
-            </div>
+        <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+            required
+        >
 
 
-            <!-- Options -->
-            <div class="options">
+        <label for="password">
+            Password
+        </label>
 
-                <label class="remember">
-                    <input
-                        type="checkbox"
-                        name="remember"
-                    >
-                    Remember me
-                </label>
-
-                <a
-                    href="{{ url_for('forgot_password') if 'forgot_password' in url_map else '#' }}"
-                    class="forgot"
-                >
-                    Forgot Password?
-                </a>
-
-            </div>
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            required
+        >
 
 
-            <!-- Login Button -->
-            <button
-                type="submit"
-                class="login-button"
-            >
-                Login
-            </button>
+        <button type="submit">
+            Login
+        </button>
 
-        </form>
+    </form>
 
 
-        <div class="divider">
-            OR
-        </div>
+    <div class="register">
 
+        Don't have an account?
 
-        <!-- Register -->
-        <div class="register">
-
-            Don't have an account?
-
-            <a href="{{ url_for('register') }}">
-                Create Account
-            </a>
-
-        </div>
-
-
-        <!-- Security -->
-        <div class="security-message">
-
-            <span class="security-icon">🔒</span>
-
-            Your login information is protected.
-            Never share your password or transaction PIN.
-
-        </div>
+        <a href="/register">
+            Create Account
+        </a>
 
     </div>
 
 
-    <div class="footer">
-        © 2026 POS Transaction Web App. All rights reserved.
+    <div class="security">
+
+        🔒 Your login information is protected.
+
+        <br>
+
+        Never share your password or transaction PIN.
+
     </div>
 
 </div>
-
-
-<script>
-
-    function togglePassword() {
-
-        const password =
-            document.getElementById("password");
-
-        const button =
-            document.getElementById("toggleButton");
-
-        if (password.type === "password") {
-
-            password.type = "text";
-
-            button.textContent = "Hide";
-
-        } else {
-
-            password.type = "password";
-
-            button.textContent = "Show";
-
-        }
-    }
-
-
-    // Prevent double submission
-    document.querySelector("form").addEventListener("submit", function () {
-
-        const button =
-            document.querySelector(".login-button");
-
-        button.disabled = true;
-
-        button.textContent = "Logging in...";
-
-    });
-
-</script>
 
 </body>
 </html>
