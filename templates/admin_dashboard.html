@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - POS Transaction</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .navbar {
+            background: #0f172a;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .balance-title {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .balance {
+            font-size: 38px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .action-icon {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .transactions {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .transactions h2 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .success {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            padding: 30px;
+        }
+
+        .flash {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .balance {
+                font-size: 30px;
+            }
+
+            th,
+            td {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        💳 POS TRANSACTION
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="logout">
+        Logout
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+    <!-- FLASH MESSAGES -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="flash">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Welcome, {{ current_user.full_name }}
+        </h1>
+
+        <p>
+            Manage your POS transactions and wallet.
+        </p>
+
+    </div>
+
+
+    <!-- BALANCE -->
+
+    <div class="balance-card">
+
+        <div class="balance-title">
+            Available Wallet Balance
+        </div>
+
+        <div class="balance">
+
+            ₦{{ "%.2f"|format(current_user.wallet_balance or 0) }}
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+        <a href="{{ url_for('deposit') }}" class="action">
+
+            <span class="action-icon">
+                💰
+            </span>
+
+            Deposit Money
+
+        </a>
+
+
+        <a href="{{ url_for('withdrawal') }}" class="action">
+
+            <span class="action-icon">
+                💸
+            </span>
+
+            Withdraw Money
+
+        </a>
+
+
+        <a href="{{ url_for('send_money') }}" class="action">
+
+            <span class="action-icon">
+                📤
+            </span>
+
+            Send Money
+
+        </a>
+
+
+        <a href="{{ url_for('receive_money') }}" class="action">
+
+            <span class="action-icon">
+                📥
+            </span>
+
+            Receive Money
+
+        </a>
+
+
+        <a href="{{ url_for('transaction_history') }}" class="action">
+
+            <span class="action-icon">
+                📋
+            </span>
+
+            Transactions
+
+        </a>
+
+
+        <a href="{{ url_for('balance') }}" class="action">
+
+            <span class="action-icon">
+                💳
+            </span>
+
+            Check Balance
+
+        </a>
+
+
+        <a href="{{ url_for('profile') }}" class="action">
+
+            <span class="action-icon">
+                👤
+            </span>
+
+            My Profile
+
+        </a>
+
+
+        <a href="{{ url_for('change_password') }}" class="action">
+
+            <span class="action-icon">
+                🔐
+            </span>
+
+            Change Password
+
+        </a>
+
+    </div>
+
+
+    <!-- RECENT TRANSACTIONS -->
+
+    <div class="transactions">
+
+        <h2>
+            Recent Transactions
+        </h2>
+
+        {% if transactions %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Reference
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for transaction in transactions %}
+
+                    <tr>
+
+                        <td>
+                            {{ transaction.transaction_reference }}
+                        </td>
+
+                        <td>
+                            {{ transaction.transaction_type }}
+                        </td>
+
+                        <td>
+                            ₦{{ "%.2f"|format(transaction.amount) }}
+                        </td>
+
+                        <td class="success">
+                            {{ transaction.status }}
+                        </td>
+
+                        <td>
+                            {{ transaction.created_at.strftime("%Y-%m-%d %H:%M") }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <div class="empty">
+
+                No transactions yet.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

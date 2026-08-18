@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Settings - POS Transaction</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #0d6efd;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 6px;
+
+            background: rgba(255,255,255,0.15);
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 94%;
+            max-width: 950px;
+
+            margin: 35px auto;
+        }
+
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 30px;
+
+            color: #222;
+
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #777;
+        }
+
+
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px;
+
+            border-radius: 7px;
+
+            margin-bottom: 10px;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+
+        /* =========================
+           SETTINGS CARD
+        ========================= */
+
+        .settings-card {
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .settings-card h3 {
+            color: #222;
+
+            font-size: 21px;
+
+            margin-bottom: 8px;
+        }
+
+        .settings-description {
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           SETTING ROW
+        ========================= */
+
+        .setting-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 25px;
+
+            padding: 18px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h4 {
+            margin-bottom: 5px;
+
+            color: #333;
+        }
+
+        .setting-info p {
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button {
+            display: inline-block;
+
+            text-decoration: none;
+
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+        }
+
+        .primary {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #0b5ed7;
+        }
+
+        .purple {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .purple:hover {
+            background: #59359c;
+        }
+
+        .danger-button {
+            background: #dc3545;
+            color: white;
+        }
+
+        .danger-button:hover {
+            background: #bb2d3b;
+        }
+
+        .secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .secondary:hover {
+            background: #5c636a;
+        }
+
+
+        /* =========================
+           PROFILE FORM
+        ========================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 3px rgba(13,110,253,0.10);
+        }
+
+        .form-group input[readonly] {
+            background: #f1f3f5;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           FORM BUTTON
+        ========================= */
+
+        .save-button {
+            margin-top: 20px;
+
+            border: none;
+
+            background: #198754;
+
+            color: white;
+
+            padding: 13px 25px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .save-button:hover {
+            background: #157347;
+        }
+
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security-card {
+            background: #fff3cd;
+
+            border-left: 5px solid #ffc107;
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .security-card h3 {
+            color: #664d03;
+
+            margin-bottom: 8px;
+        }
+
+        .security-card p {
+            color: #664d03;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           ACCOUNT INFO
+        ========================= */
+
+        .account-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .account-row:last-child {
+            border-bottom: none;
+        }
+
+        .account-label {
+            color: #777;
+        }
+
+        .account-value {
+            font-weight: bold;
+
+            text-align: right;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            margin-top: 25px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .header-links a {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .settings-card {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+
+                text-align: center;
+            }
+
+            .account-row {
+                display: block;
+            }
+
+            .account-value {
+                text-align: left;
+
+                margin-top: 5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <h1>💳 POS Transaction</h1>
+
+    <div class="header-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('profile') }}">
+            Profile
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <section class="page-title">
+
+        <h2>
+            ⚙️ Settings
+        </h2>
+
+        <p>
+            Manage your account and security settings.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         FLASH MESSAGES
+    ========================= -->
+
+    {% with messages =
+        get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- =========================
+         ACCOUNT SETTINGS
+    ========================= -->
+
+    <section class="settings-card">
+
+        <h3>
+            👤 Account Settings
+        </h3>
+
+        <p class="settings-description">
+            Manage your personal account information.
+        </p>
+
+
+        <form method="POST"
+              action="{{ url_for('settings') }}">
+
+            <div class="form-grid">
+
+
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ current_user.full_name or '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ current_user.username or '' }}"
+                        readonly
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ current_user.email or '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ current_user.phone or '' }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-button">
+
+                💾 Save Changes
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         PASSWORD SETTINGS
+    ========================= -->
+
+    <section class="settings-card">
+
+        <h3>
+            🔐 Password & PIN
+        </h3>
+
+        <p class="settings-description">
+            Protect your account by regularly updating
+            your password and transaction PIN.
+        </p>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    Change Password
+                </h4>
+
+                <p>
+                    Update your login password.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('change_password') }}"
+                class="button purple">
+
+                Change Password
+
+            </a>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    Change Transaction PIN
+                </h4>
+
+                <p>
+                    Update the PIN used to authorize
+                    money transactions.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('change_pin') }}"
+                class="button primary">
+
+                Change PIN
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         WALLET SETTINGS
+    ========================= -->
+
+    <section class="settings-card">
+
+        <h3>
+            💳 Wallet
+        </h3>
+
+        <p class="settings-description">
+            Manage your wallet and view your financial activity.
+        </p>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    Wallet Balance
+                </h4>
+
+                <p>
+                    Your current available wallet balance.
+                </p>
+
+            </div>
+
+            <strong>
+                ₦{{ "{:,.2f}".format(
+                    current_user.wallet_balance or 0
+                ) }}
+            </strong>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    Transaction History
+                </h4>
+
+                <p>
+                    View your deposits, withdrawals,
+                    sent and received money.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('transaction_history') }}"
+                class="button primary">
+
+                View History
+
+            </a>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    My Wallet
+                </h4>
+
+                <p>
+                    Open your wallet and manage transactions.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('wallet') }}"
+                class="button primary">
+
+                Open Wallet
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ACCOUNT INFORMATION
+    ========================= -->
+
+    <section class="settings-card">
+
+        <h3>
+            📋 Account Information
+        </h3>
+
+        <p class="settings-description">
+            Information about your POS account.
+        </p>
+
+
+        <div class="account-row">
+
+            <span class="account-label">
+                Account Type
+            </span>
+
+            <span class="account-value">
+                {{ current_user.role }}
+            </span>
+
+        </div>
+
+
+        <div class="account-row">
+
+            <span class="account-label">
+                Account Status
+            </span>
+
+            <span class="account-value">
+                {{ current_user.status }}
+            </span>
+
+        </div>
+
+
+        <div class="account-row">
+
+            <span class="account-label">
+                Username
+            </span>
+
+            <span class="account-value">
+                {{ current_user.username }}
+            </span>
+
+        </div>
+
+
+        <div class="account-row">
+
+            <span class="account-label">
+                Account Created
+            </span>
+
+            <span class="account-value">
+
+                {% if current_user.created_at %}
+
+                    {{ current_user.created_at.strftime(
+                        '%d %B %Y'
+                    ) }}
+
+                {% else %}
+
+                    Not Available
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SECURITY NOTICE
+    ========================= -->
+
+    <section class="security-card">
+
+        <h3>
+            🔒 Security Notice
+        </h3>
+
+        <p>
+            Never share your password or transaction PIN with
+            anyone. POS transaction authorization must be
+            performed on the server. Always log out when using
+            a shared computer.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <section class="settings-card">
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h4>
+                    Return to Dashboard
+                </h4>
+
+                <p>
+                    Go back to your POS transaction dashboard.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="button secondary">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 POS Transaction Web App
+    </p>
+
+    <p>
+        🔒 Secure Account Management
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
+Matching Flask route

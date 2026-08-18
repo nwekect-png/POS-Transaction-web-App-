@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>POS Transaction Web App</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="home-container">
+
+    <div class="home-card">
+
+        <h1>POS TRANSACTION</h1>
+
+        <h2>Send and Receive Money</h2>
+
+        <p>
+            Securely manage your transactions,
+            wallet and payments.
+        </p>
+
+        <div class="home-buttons">
+
+            <a href="{{ url_for('login') }}"
+               class="button">
+                Login
+            </a>
+
+            <a href="{{ url_for('register') }}"
+               class="button secondary">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

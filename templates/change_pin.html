@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Change Transaction PIN - POS Transaction</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* HEADER */
+        .header {
+            background: #0d6efd;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 6px;
+
+            background: rgba(255,255,255,0.15);
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 94%;
+            max-width: 600px;
+
+            margin: 50px auto;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        /* TITLE */
+        .title {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .pin-icon {
+            font-size: 55px;
+
+            margin-bottom: 10px;
+        }
+
+        .title h2 {
+            color: #222;
+
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #777;
+
+            line-height: 1.5;
+        }
+
+        /* FLASH MESSAGES */
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px;
+
+            border-radius: 7px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        .pin-wrapper {
+            position: relative;
+        }
+
+        .pin-wrapper input {
+            width: 100%;
+
+            padding: 14px 50px 14px 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 20px;
+
+            letter-spacing: 6px;
+
+            outline: none;
+
+            text-align: center;
+        }
+
+        .pin-wrapper input:focus {
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 3px rgba(13,110,253,0.10);
+        }
+
+        .show-pin {
+            position: absolute;
+
+            right: 12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            letter-spacing: normal;
+        }
+
+        /* HELP */
+        .help-text {
+            display: block;
+
+            margin-top: 7px;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* REQUIREMENTS */
+        .requirements {
+            background: #f8f9fa;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .requirements h3 {
+            font-size: 15px;
+
+            margin-bottom: 10px;
+        }
+
+        .requirements ul {
+            padding-left: 20px;
+
+            color: #666;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+        /* BUTTON */
+        .change-button {
+            width: 100%;
+
+            border: none;
+
+            background: #0d6efd;
+
+            color: white;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .change-button:hover {
+            background: #0b5ed7;
+        }
+
+        /* CANCEL */
+        .cancel-button {
+            display: block;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            margin-top: 15px;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            background: #6c757d;
+
+            color: white;
+
+            font-weight: bold;
+        }
+
+        .cancel-button:hover {
+            background: #5c636a;
+        }
+
+        /* SECURITY */
+        .security {
+            margin-top: 25px;
+
+            padding: 18px;
+
+            background: #fff3cd;
+
+            border-left: 5px solid #ffc107;
+
+            border-radius: 8px;
+        }
+
+        .security h3 {
+            color: #664d03;
+
+            margin-bottom: 8px;
+
+            font-size: 16px;
+        }
+
+        .security p {
+            color: #664d03;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            margin-top: 20px;
+
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .header-links a {
+                padding: 8px 10px;
+
+                font-size: 13px;
+            }
+
+            .container {
+                width: 94%;
+
+                margin: 30px auto;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .pin-icon {
+                font-size: 45px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <h1>💳 POS Transaction</h1>
+
+    <div class="header-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('profile') }}">
+            Profile
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+    <div class="card">
+
+
+        <!-- TITLE -->
+
+        <div class="title">
+
+            <div class="pin-icon">
+                🔢
+            </div>
+
+            <h2>
+                Change Transaction PIN
+            </h2>
+
+            <p>
+                Change the PIN you use to authorize
+                money transactions.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             FLASH MESSAGES
+        ========================= -->
+
+        {% with messages =
+            get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =========================
+             PIN REQUIREMENTS
+        ========================= -->
+
+        <div class="requirements">
+
+            <h3>
+                Transaction PIN Requirements
+            </h3>
+
+            <ul>
+
+                <li>
+                    PIN must contain exactly 4 to 6 digits.
+                </li>
+
+                <li>
+                    Use numbers only.
+                </li>
+
+                <li>
+                    Do not use an easy-to-guess PIN.
+                </li>
+
+                <li>
+                    Never share your transaction PIN.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- =========================
+             FORM
+        ========================= -->
+
+        <form
+            method="POST"
+            action="{{ url_for('change_pin') }}"
+            onsubmit="return validatePin();">
+
+
+            <!-- CURRENT PIN -->
+
+            <div class="form-group">
+
+                <label for="current_pin">
+                    Current Transaction PIN
+                </label>
+
+                <div class="pin-wrapper">
+
+                    <input
+                        type="password"
+                        id="current_pin"
+                        name="current_pin"
+                        placeholder="••••"
+                        minlength="4"
+                        maxlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{4,6}"
+                        required
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-pin"
+                        onclick="togglePin('current_pin', this)"
+                        aria-label="Show current PIN">
+
+                        👁️
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEW PIN -->
+
+            <div class="form-group">
+
+                <label for="new_pin">
+                    New Transaction PIN
+                </label>
+
+                <div class="pin-wrapper">
+
+                    <input
+                        type="password"
+                        id="new_pin"
+                        name="new_pin"
+                        placeholder="••••"
+                        minlength="4"
+                        maxlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{4,6}"
+                        required
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-pin"
+                        onclick="togglePin('new_pin', this)"
+                        aria-label="Show new PIN">
+
+                        👁️
+
+                    </button>
+
+                </div>
+
+                <span class="help-text">
+                    Enter a new 4 to 6 digit transaction PIN.
+                </span>
+
+            </div>
+
+
+            <!-- CONFIRM PIN -->
+
+            <div class="form-group">
+
+                <label for="confirm_pin">
+                    Confirm New Transaction PIN
+                </label>
+
+                <div class="pin-wrapper">
+
+                    <input
+                        type="password"
+                        id="confirm_pin"
+                        name="confirm_pin"
+                        placeholder="••••"
+                        minlength="4"
+                        maxlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{4,6}"
+                        required
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-pin"
+                        onclick="togglePin('confirm_pin', this)"
+                        aria-label="Show confirmed PIN">
+
+                        👁️
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="change-button">
+
+                🔐 Change Transaction PIN
+
+            </button>
+
+
+        </form>
+
+
+        <!-- CANCEL -->
+
+        <a
+            href="{{ url_for('settings') }}"
+            class="cancel-button">
+
+            Cancel
+
+        </a>
+
+
+        <!-- SECURITY NOTICE -->
+
+        <div class="security">
+
+            <h3>
+                🔒 Security Notice
+            </h3>
+
+            <p>
+                Your transaction PIN is used to authorize
+                financial transactions. Never give your PIN
+                to another person, including someone claiming
+                to be a bank or POS support representative.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 POS Transaction Web App
+    </p>
+
+    <p>
+        🔒 Secure Transaction Authorization
+    </p>
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    function togglePin(fieldId, button) {
+
+        const field = document.getElementById(fieldId);
+
+        if (field.type === "password") {
+
+            field.type = "text";
+
+            button.textContent = "🙈";
+
+        } else {
+
+            field.type = "password";
+
+            button.textContent = "👁️";
+
+        }
+
+    }
+
+
+    function validatePin() {
+
+        const currentPin =
+            document.getElementById("current_pin").value;
+
+        const newPin =
+            document.getElementById("new_pin").value;
+
+        const confirmPin =
+            document.getElementById("confirm_pin").value;
+
+
+        /* Check digits only */
+
+        if (!/^[0-9]{4,6}$/.test(currentPin)) {
+
+            alert(
+                "Current PIN must contain 4 to 6 digits."
+            );
+
+            return false;
+        }
+
+
+        if (!/^[0-9]{4,6}$/.test(newPin)) {
+
+            alert(
+                "New PIN must contain 4 to 6 digits."
+            );
+
+            return false;
+        }
+
+
+        /* Confirm PIN */
+
+        if (newPin !== confirmPin) {
+
+            alert(
+                "New PIN and confirmation PIN do not match."
+            );
+
+            return false;
+        }
+
+
+        /* Prevent same PIN */
+
+        if (currentPin === newPin) {
+
+            alert(
+                "New PIN must be different from your current PIN."
+            );
+
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
