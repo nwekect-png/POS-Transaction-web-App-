@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<<<<<<< HEAD
     <title>Send Money - POS Transaction</title>
 
     <style>
@@ -20,12 +21,32 @@
         }
 
         .header {
+=======
+    <title>Send Money - POS Transaction Web App</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        .topbar {
+>>>>>>> 97baa6f (Initial POS transaction web app)
             background: #0d6efd;
             color: white;
             padding: 18px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+<<<<<<< HEAD
         }
 
         .header h1 {
@@ -33,6 +54,17 @@
         }
 
         .back-btn {
+=======
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+        }
+
+        .topbar a {
+>>>>>>> 97baa6f (Initial POS transaction web app)
             color: white;
             text-decoration: none;
             background: rgba(255,255,255,0.15);
@@ -40,12 +72,17 @@
             border-radius: 6px;
         }
 
+<<<<<<< HEAD
         .back-btn:hover {
+=======
+        .topbar a:hover {
+>>>>>>> 97baa6f (Initial POS transaction web app)
             background: rgba(255,255,255,0.25);
         }
 
         .container {
             width: 95%;
+<<<<<<< HEAD
             max-width: 850px;
             margin: 30px auto;
         }
@@ -90,29 +127,109 @@
 
         .form-group {
             margin-bottom: 18px;
+=======
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 30px;
+            color: #0d6efd;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        .balance-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .balance-card .label {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .balance-card .balance {
+            font-size: 30px;
+            font-weight: bold;
+            color: #198754;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-card h3 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 22px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+>>>>>>> 97baa6f (Initial POS transaction web app)
         }
 
         label {
             display: block;
+<<<<<<< HEAD
             font-weight: bold;
             margin-bottom: 7px;
+=======
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .required {
+            color: #dc3545;
+>>>>>>> 97baa6f (Initial POS transaction web app)
         }
 
         input,
         select,
         textarea {
             width: 100%;
+<<<<<<< HEAD
             padding: 13px;
             border: 1px solid #ccc;
             border-radius: 7px;
             font-size: 15px;
             outline: none;
+=======
+            padding: 13px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 7px;
+            font-size: 16px;
+            background: white;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+>>>>>>> 97baa6f (Initial POS transaction web app)
         }
 
         input:focus,
         select:focus,
         textarea:focus {
             border-color: #0d6efd;
+<<<<<<< HEAD
             box-shadow: 0 0 0 2px rgba(13,110,253,0.1);
         }
 
@@ -186,10 +303,166 @@
 
         .info-box li {
             margin-bottom: 7px;
+=======
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.12);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .pin-wrapper {
+            position: relative;
+        }
+
+        .pin-wrapper input {
+            padding-right: 75px;
+        }
+
+        .show-pin {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: #eee;
+            color: #333;
+            padding: 7px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .show-pin:hover {
+            background: #ddd;
+        }
+
+        .amount-wrapper {
+            position: relative;
+        }
+
+        .currency {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #555;
+        }
+
+        .amount-wrapper input {
+            padding-left: 42px;
+        }
+
+        .notice {
+            background: #fff3cd;
+            border: 1px solid #ffe69c;
+            color: #664d03;
+            padding: 14px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .security-note {
+            background: #e7f3ff;
+            border: 1px solid #b6dcff;
+            color: #084298;
+            padding: 14px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 7px;
+            padding: 13px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+        }
+
+        .btn-primary:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5c636a;
+        }
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px 15px;
+            border-radius: 7px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .flash.success {
+            background: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        .flash.danger,
+        .flash.error {
+            background: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        .flash.warning {
+            background: #fff3cd;
+            color: #664d03;
+            border: 1px solid #ffecb5;
+        }
+
+        .flash.info {
+            background: #cff4fc;
+            color: #055160;
+            border: 1px solid #b6effb;
+>>>>>>> 97baa6f (Initial POS transaction web app)
         }
 
         .footer {
             text-align: center;
+<<<<<<< HEAD
             padding: 25px;
             color: #777;
             font-size: 14px;
@@ -201,6 +474,19 @@
             }
 
             .header h1 {
+=======
+            color: #777;
+            font-size: 13px;
+            padding: 25px 10px;
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                padding: 15px;
+            }
+
+            .topbar h1 {
+>>>>>>> 97baa6f (Initial POS transaction web app)
                 font-size: 18px;
             }
 
@@ -209,24 +495,46 @@
                 margin: 20px auto;
             }
 
+<<<<<<< HEAD
             .card {
                 padding: 20px;
             }
+=======
+            .form-card {
+                padding: 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+>>>>>>> 97baa6f (Initial POS transaction web app)
         }
     </style>
 </head>
 
 <body>
 
+<<<<<<< HEAD
     <!-- HEADER -->
     <div class="header">
         <h1>POS Transaction</h1>
 
         <a href="{{ url_for('dashboard') }}" class="back-btn">
+=======
+    <div class="topbar">
+        <h1>POS Transaction Web App</h1>
+
+        <a href="{{ url_for('dashboard') }}">
+>>>>>>> 97baa6f (Initial POS transaction web app)
             ← Dashboard
         </a>
     </div>
 
+<<<<<<< HEAD
     <div class="container">
 
         <div class="card">
@@ -251,10 +559,35 @@
                                 alert-danger
                             {% endif %}
                         ">
+=======
+
+    <div class="container">
+
+        <div class="page-title">
+            <h2>Send Money</h2>
+
+            <p>
+                Transfer money securely to another bank account.
+            </p>
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+>>>>>>> 97baa6f (Initial POS transaction web app)
                             {{ message }}
                         </div>
 
                     {% endfor %}
+<<<<<<< HEAD
                 {% endif %}
             {% endwith %}
 
@@ -304,16 +637,229 @@
 
                         <option value="">
                             -- Select Bank / Service --
+=======
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- BALANCE -->
+        <div class="balance-card">
+
+            <div class="label">
+                Available Wallet Balance
+            </div>
+
+            <div class="balance">
+                ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+            </div>
+
+        </div>
+
+
+        <!-- SECURITY NOTICE -->
+        <div class="security-note">
+
+            <strong>🔒 Security Notice</strong>
+
+            <br><br>
+
+            Never share your transaction PIN with anyone.
+
+            Check the receiver's name, bank and account number
+            carefully before sending money.
+
+        </div>
+
+
+        <!-- FORM -->
+        <div class="form-card">
+
+            <h3>Transfer Details</h3>
+
+            <form
+                method="POST"
+                action="{{ url_for('send_money') }}"
+                id="sendMoneyForm"
+            >
+                <select name="bank_name" id="bank_name" required>
+    <option value="">-- Select Bank --</option>
+    <option value="Access Bank">Access Bank</option>
+    <option value="Ecobank Nigeria">Ecobank Nigeria</option>
+    <option value="Fidelity Bank">Fidelity Bank</option>
+    <option value="First Bank of Nigeria">First Bank of Nigeria</option>
+    <option value="FCMB">FCMB</option>
+    <option value="GTBank">GTBank</option>
+    <option value="Keystone Bank">Keystone Bank</option>
+    <option value="Moniepoint">Moniepoint</option>
+    <option value="OPay">OPay</option>
+    <option value="PalmPay">PalmPay</option>
+    <option value="Polaris Bank">Polaris Bank</option>
+    <option value="Stanbic IBTC Bank">Stanbic IBTC Bank</option>
+    <option value="Sterling Bank">Sterling Bank</option>
+    <option value="UBA">United Bank for Africa (UBA)</option>
+    <option value="Unity Bank">Unity Bank</option>
+    <option value="Wema Bank">Wema Bank</option>
+    <option value="Zenith Bank">Zenith Bank</option>
+    <option value="Other Bank">Other Bank</option>
+</select>
+                
+<!-- ACCOUNT NUMBER -->
+<div class="form-group">
+
+    <label for="account_number">
+        Account Number <span class="required">*</span>
+    </label>
+
+    <input
+        type="text"
+        id="account_number"
+        name="account_number"
+        placeholder="Enter 10-digit account number"
+        inputmode="numeric"
+        maxlength="10"
+        minlength="10"
+        pattern="[0-9]{10}"
+        required
+
+!-- BANK --
+<div class="form-group">
+
+    <label for="bank_name">
+        Select Bank <span class="required">*</span>
+    </label>
+
+    <select name="bank_name" id="bank_name" required>
+
+        <option value="">
+            -- Select Bank --
+        </option>
+
+        <option value="Access Bank">
+            Access Bank
+        </option>
+
+        <option value="Ecobank Nigeria">
+            Ecobank Nigeria
+        </option>
+
+        <option value="Fidelity Bank">
+            Fidelity Bank
+        </option>
+
+        <option value="First Bank of Nigeria">
+            First Bank of Nigeria
+        </option>
+
+        <option value="FCMB">
+            FCMB
+        </option>
+
+        <option value="GTBank">
+            GTBank
+        </option>
+
+        <option value="Keystone Bank">
+            Keystone Bank
+        </option>
+
+        <option value="Moniepoint">
+            Moniepoint
+        </option>
+
+        <option value="OPay">
+            OPay
+        </option>
+
+        <option value="PalmPay">
+            PalmPay
+        </option>
+
+        <option value="Polaris Bank">
+            Polaris Bank
+        </option>
+
+        <option value="Stanbic IBTC Bank">
+            Stanbic IBTC Bank
+        </option>
+
+        <option value="Sterling Bank">
+            Sterling Bank
+        </option>
+
+        <option value="UBA">
+            United Bank for Africa (UBA)
+        </option>
+
+        <option value="Unity Bank">
+            Unity Bank
+        </option>
+
+        <option value="Wema Bank">
+            Wema Bank
+        </option>
+
+        <option value="Zenith Bank">
+            Zenith Bank
+        </option>
+
+        <option value="Other Bank">
+            Other Bank
+        </option>
+
+    </select>
+
+    <span class="help-text">
+        Select the receiver's bank.
+    </span>
+
+</div>
+                    >
+
+                        <option value="">
+                            -- Select Receiver's Bank --
+>>>>>>> 97baa6f (Initial POS transaction web app)
                         </option>
 
                         <option value="Access Bank">
                             Access Bank
                         </option>
 
+<<<<<<< HEAD
+=======
+                        <option value="Citibank Nigeria">
+                            Citibank Nigeria
+                        </option>
+
+                        <option value="Ecobank Nigeria">
+                            Ecobank Nigeria
+                        </option>
+
+                        <option value="Fidelity Bank">
+                            Fidelity Bank
+                        </option>
+
+                        <option value="First Bank of Nigeria">
+                            First Bank of Nigeria
+                        </option>
+
+                        <option value="FCMB">
+                            FCMB
+                        </option>
+
+                        <option value="Globus Bank">
+                            Globus Bank
+                        </option>
+
+>>>>>>> 97baa6f (Initial POS transaction web app)
                         <option value="GTBank">
                             GTBank
                         </option>
 
+<<<<<<< HEAD
                         <option value="First Bank">
                             First Bank
                         </option>
@@ -332,21 +878,126 @@
 
                         <option value="PalmPay">
                             PalmPay
+=======
+                        <option value="Keystone Bank">
+                            Keystone Bank
+>>>>>>> 97baa6f (Initial POS transaction web app)
                         </option>
 
                         <option value="Moniepoint">
                             Moniepoint
                         </option>
 
+<<<<<<< HEAD
                         <option value="Other">
                             Other
                         </option>
 
                     </select>
+=======
+                        <option value="OPay">
+                            OPay
+                        </option>
+
+                        <option value="PalmPay">
+                            PalmPay
+                        </option>
+
+                        <option value="Parallex Bank">
+                            Parallex Bank
+                        </option>
+
+                        <option value="Polaris Bank">
+                            Polaris Bank
+                        </option>
+
+                        <option value="PremiumTrust Bank">
+                            PremiumTrust Bank
+                        </option>
+
+                        <option value="Providus Bank">
+                            Providus Bank
+                        </option>
+
+                        <option value="Stanbic IBTC Bank">
+                            Stanbic IBTC Bank
+                        </option>
+
+                        <option value="Sterling Bank">
+                            Sterling Bank
+                        </option>
+
+                        <option value="SunTrust Bank">
+                            SunTrust Bank
+                        </option>
+
+                        <option value="TAJBank">
+                            TAJBank
+                        </option>
+
+                        <option value="Titan Trust Bank">
+                            Titan Trust Bank
+                        </option>
+
+                        <option value="Union Bank">
+                            Union Bank
+                        </option>
+
+                        <option value="UBA">
+                            UBA
+                        </option>
+
+                        <option value="Unity Bank">
+                            Unity Bank
+                        </option>
+
+                        <option value="Wema Bank">
+                            Wema Bank
+                        </option>
+
+                        <option value="Zenith Bank">
+                            Zenith Bank
+                        </option>
+
+                        <option value="Other Bank">
+                            Other Bank
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ACCOUNT NUMBER -->
+                <div class="form-group">
+
+                    <label for="account_number">
+                        Account Number
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="account_number"
+                        name="account_number"
+                        placeholder="Enter 10-digit account number"
+                        inputmode="numeric"
+                        maxlength="10"
+                        minlength="10"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+                    <span class="help-text">
+                        Enter the receiver's 10-digit account number.
+                    </span>
+
+>>>>>>> 97baa6f (Initial POS transaction web app)
                 </div>
 
 
                 <!-- AMOUNT -->
+<<<<<<< HEAD
                 <div class="amount-box">
 
                     <div class="form-group" style="margin-bottom: 0;">
@@ -354,6 +1005,18 @@
                         <label for="amount">
                             Amount (₦)
                         </label>
+=======
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount
+                        <span class="required">*</span>
+                    </label>
+
+                    <div class="amount-wrapper">
+
+                        <span class="currency">₦</span>
+>>>>>>> 97baa6f (Initial POS transaction web app)
 
                         <input
                             type="number"
@@ -367,6 +1030,52 @@
 
                     </div>
 
+<<<<<<< HEAD
+=======
+                    <span class="help-text">
+                        Enter the amount you want to send.
+                    </span>
+
+                </div>
+
+
+                <!-- PIN -->
+                <div class="form-group">
+
+                    <label for="transaction_pin">
+                        Transaction PIN
+                        <span class="required">*</span>
+                    </label>
+
+                    <div class="pin-wrapper">
+
+                        <input
+                            type="password"
+                            id="transaction_pin"
+                            name="transaction_pin"
+                            placeholder="Enter your transaction PIN"
+                            inputmode="numeric"
+                            minlength="4"
+                            maxlength="6"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-pin"
+                            id="showPinButton"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                    <span class="help-text">
+                        Enter your transaction PIN to authorize this transfer.
+                    </span>
+
+>>>>>>> 97baa6f (Initial POS transaction web app)
                 </div>
 
 
@@ -374,18 +1083,28 @@
                 <div class="form-group">
 
                     <label for="description">
+<<<<<<< HEAD
                         Description
+=======
+                        Description / Payment Reference
+>>>>>>> 97baa6f (Initial POS transaction web app)
                     </label>
 
                     <textarea
                         id="description"
                         name="description"
+<<<<<<< HEAD
                         placeholder="Enter transaction description (optional)"
+=======
+                        maxlength="250"
+                        placeholder="Optional payment description"
+>>>>>>> 97baa6f (Initial POS transaction web app)
                     ></textarea>
 
                 </div>
 
 
+<<<<<<< HEAD
                 <!-- TRANSACTION PIN -->
                 <div class="form-group">
 
@@ -402,10 +1121,22 @@
                         inputmode="numeric"
                         required
                     >
+=======
+                <!-- WARNING -->
+                <div class="notice">
+
+                    <strong>⚠️ Check Before Sending</strong>
+
+                    <br><br>
+
+                    Please make sure the receiver's name, bank and account
+                    number are correct before submitting this transaction.
+>>>>>>> 97baa6f (Initial POS transaction web app)
 
                 </div>
 
 
+<<<<<<< HEAD
                 <!-- SUBMIT -->
                 <button type="submit" class="submit-btn">
                     Send Money
@@ -439,12 +1170,37 @@
 
             </div>
 
+=======
+                <!-- BUTTONS -->
+                <div class="button-row">
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="submitButton"
+                    >
+                        💸 Send Money
+                    </button>
+
+                </div>
+
+            </form>
+
+>>>>>>> 97baa6f (Initial POS transaction web app)
         </div>
 
     </div>
 
 
     <div class="footer">
+<<<<<<< HEAD
         &copy; 2026 POS Transaction Web App. All rights reserved.
     </div>
 
@@ -469,6 +1225,131 @@
             }
 
         });
+=======
+        © 2026 POS Transaction Web App. All rights reserved.
+    </div>
+
+
+    <script>
+
+        // SHOW / HIDE PIN
+        document
+            .getElementById("showPinButton")
+            .addEventListener("click", function () {
+
+                const pin =
+                    document.getElementById("transaction_pin");
+
+                if (pin.type === "password") {
+
+                    pin.type = "text";
+                    this.textContent = "Hide";
+
+                } else {
+
+                    pin.type = "password";
+                    this.textContent = "Show";
+
+                }
+
+            });
+
+
+        // ACCOUNT NUMBER - NUMBERS ONLY
+        document
+            .getElementById("account_number")
+            .addEventListener("input", function () {
+
+                this.value =
+                    this.value.replace(/\D/g, "").slice(0, 10);
+
+            });
+
+
+        // PIN - NUMBERS ONLY
+        document
+            .getElementById("transaction_pin")
+            .addEventListener("input", function () {
+
+                this.value =
+                    this.value.replace(/\D/g, "").slice(0, 6);
+
+            });
+
+
+        // FORM VALIDATION
+        document
+            .getElementById("sendMoneyForm")
+            .addEventListener("submit", function (event) {
+
+                const bank =
+                    document.getElementById("bank_name").value;
+
+                const account =
+                    document.getElementById("account_number").value;
+
+                const amount =
+                    parseFloat(
+                        document.getElementById("amount").value
+                    );
+
+                const pin =
+                    document.getElementById("transaction_pin").value;
+
+
+                if (!bank) {
+
+                    event.preventDefault();
+
+                    alert("Please select the receiver's bank.");
+
+                    return;
+                }
+
+
+                if (account.length !== 10) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter a valid 10-digit account number."
+                    );
+
+                    return;
+                }
+
+
+                if (isNaN(amount) || amount <= 0) {
+
+                    event.preventDefault();
+
+                    alert("Please enter a valid amount.");
+
+                    return;
+                }
+
+
+                if (pin.length < 4) {
+
+                    event.preventDefault();
+
+                    alert("Please enter your transaction PIN.");
+
+                    return;
+                }
+
+
+                // Prevent double clicking
+                const button =
+                    document.getElementById("submitButton");
+
+                button.disabled = true;
+
+                button.textContent =
+                    "Processing...";
+
+            });
+>>>>>>> 97baa6f (Initial POS transaction web app)
 
     </script>
 
