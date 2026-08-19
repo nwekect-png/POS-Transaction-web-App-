@@ -1,109 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-
-=======
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Deposit Money - POS Transaction</title>
+    <title>Send Money - POS Transaction</title>
 
     <style>
-<<<<<<< HEAD
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #1e293b;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #334155;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .back {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back a {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .message {
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-=======
         * {
             margin: 0;
             padding: 0;
@@ -126,7 +29,7 @@
             justify-content: space-between;
             align-items: center;
 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .header h1 {
@@ -136,19 +39,19 @@
         .header a {
             color: white;
             text-decoration: none;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             padding: 10px 16px;
             border-radius: 6px;
         }
 
         .header a:hover {
-            background: rgba(255,255,255,0.25);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         /* CONTAINER */
         .container {
             width: 92%;
-            max-width: 600px;
+            max-width: 650px;
             margin: 40px auto;
         }
 
@@ -159,16 +62,16 @@
 
             border-radius: 15px;
 
-            box-shadow:
-                0 5px 20px rgba(0,0,0,0.10);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
         }
 
+        /* CARD HEADER */
         .card-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .deposit-icon {
+        .send-icon {
             font-size: 55px;
             margin-bottom: 10px;
         }
@@ -186,6 +89,7 @@
         /* BALANCE */
         .balance-box {
             background: #e7f1ff;
+
             border-left: 5px solid #0d6efd;
 
             padding: 18px;
@@ -242,8 +146,7 @@
         .form-group select:focus {
             border-color: #0d6efd;
 
-            box-shadow:
-                0 0 0 3px rgba(13,110,253,0.10);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
         }
 
         .form-group textarea {
@@ -251,13 +154,21 @@
             min-height: 90px;
         }
 
-        /* BUTTON */
-        .deposit-button {
+        /* HELP TEXT */
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* SEND BUTTON */
+        .send-button {
             width: 100%;
 
             border: none;
 
-            background: #198754;
+            background: #6f42c1;
 
             color: white;
 
@@ -274,8 +185,8 @@
             transition: 0.2s;
         }
 
-        .deposit-button:hover {
-            background: #157347;
+        .send-button:hover {
+            background: #59359c;
         }
 
         /* CANCEL */
@@ -358,7 +269,9 @@
 
         .security p {
             color: #666;
+
             font-size: 14px;
+
             line-height: 1.5;
         }
 
@@ -393,102 +306,15 @@
                 padding: 25px 20px;
             }
 
-            .deposit-icon {
+            .send-icon {
                 font-size: 45px;
             }
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         }
     </style>
 </head>
 
 <body>
 
-<<<<<<< HEAD
-<div class="container">
-
-    <div class="card">
-
-        <h1>💰 Deposit Money</h1>
-
-        <p class="subtitle">
-            Add money to your POS wallet
-        </p>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-
-            {% if messages %}
-
-                {% for category, message in messages %}
-
-                    <div class="message {% if category == 'success' %}success{% endif %}">
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-
-            {% endif %}
-
-        {% endwith %}
-
-        <form method="POST" action="{{ url_for('deposit') }}">
-
-            <label for="amount">
-                Deposit Amount (₦)
-            </label>
-
-            <input
-                type="number"
-                id="amount"
-                name="amount"
-                placeholder="Enter amount"
-                min="1"
-                step="0.01"
-                required
-            >
-
-            <label for="transaction_pin">
-                Transaction PIN
-            </label>
-
-            <input
-                type="password"
-                id="transaction_pin"
-                name="transaction_pin"
-                placeholder="Enter transaction PIN"
-                maxlength="6"
-                autocomplete="off"
-            >
-
-            <label for="description">
-                Description
-            </label>
-
-            <textarea
-                id="description"
-                name="description"
-                placeholder="Enter deposit description (optional)"
-            ></textarea>
-
-            <button type="submit">
-                Deposit Money
-            </button>
-
-        </form>
-
-        <div class="back">
-            <a href="{{ url_for('dashboard') }}">
-                ← Back to Dashboard
-            </a>
-        </div>
-
-    </div>
-
-</div>
-
-</body>
-
-</html>
-=======
     <!-- HEADER -->
     <header class="header">
 
@@ -506,17 +332,17 @@
 
         <div class="card">
 
-            <!-- HEADER -->
+            <!-- CARD HEADER -->
             <div class="card-header">
 
-                <div class="deposit-icon">
-                    💰
+                <div class="send-icon">
+                    📤
                 </div>
 
-                <h2>Deposit Money</h2>
+                <h2>Send Money</h2>
 
                 <p>
-                    Add money securely to your wallet.
+                    Transfer money securely to another person.
                 </p>
 
             </div>
@@ -548,7 +374,7 @@
             <div class="balance-box">
 
                 <p>
-                    Current Wallet Balance
+                    Available Wallet Balance
                 </p>
 
                 <strong>
@@ -558,15 +384,38 @@
             </div>
 
 
-            <!-- DEPOSIT FORM -->
+            <!-- SEND MONEY FORM -->
             <form method="POST"
-                  action="{{ url_for('deposit') }}">
+                  action="{{ url_for('send_money') }}">
+
+                <!-- RECIPIENT -->
+                <div class="form-group">
+
+                    <label for="recipient">
+                        Recipient Username / Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recipient"
+                        name="recipient"
+                        placeholder="Enter recipient username or phone"
+                        required
+                    >
+
+                    <span class="help-text">
+                        Enter the registered username or phone number
+                        of the person receiving the money.
+                    </span>
+
+                </div>
+
 
                 <!-- AMOUNT -->
                 <div class="form-group">
 
                     <label for="amount">
-                        Deposit Amount (₦)
+                        Amount (₦)
                     </label>
 
                     <input
@@ -575,9 +424,25 @@
                         name="amount"
                         min="1"
                         step="0.01"
-                        placeholder="Enter amount"
+                        placeholder="Enter amount to send"
                         required
                     >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="What is this payment for? (optional)"
+                    ></textarea>
 
                 </div>
 
@@ -596,35 +461,23 @@
                         minlength="4"
                         maxlength="6"
                         inputmode="numeric"
-                        placeholder="Enter transaction PIN"
+                        placeholder="Enter your transaction PIN"
                         required
                     >
 
-                </div>
-
-
-                <!-- DESCRIPTION -->
-                <div class="form-group">
-
-                    <label for="description">
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Enter deposit description (optional)"
-                    ></textarea>
+                    <span class="help-text">
+                        Your PIN is required to authorize this transaction.
+                    </span>
 
                 </div>
 
 
-                <!-- SUBMIT -->
+                <!-- SEND BUTTON -->
                 <button
                     type="submit"
-                    class="deposit-button">
+                    class="send-button">
 
-                    💰 Deposit Money
+                    📤 Send Money
 
                 </button>
 
@@ -640,15 +493,16 @@
             </a>
 
 
-            <!-- SECURITY -->
+            <!-- SECURITY NOTICE -->
             <div class="security">
 
                 <h3>🔒 Security Notice</h3>
 
                 <p>
-                    Never share your transaction PIN with another
-                    person. Make sure the amount is correct before
-                    confirming your deposit.
+                    Confirm the recipient's details and amount before
+                    sending. Never share your transaction PIN with
+                    anyone. Transactions should be authorized and
+                    validated on the server.
                 </p>
 
             </div>
@@ -666,52 +520,10 @@
         </p>
 
         <p>
-            Secure Wallet Management
+            Secure Money Transfer
         </p>
 
     </footer>
 
 </body>
 </html>
-Make sure app.py has the matching route
-
-Your Flask route should look approximately like this:
-
-@app.route("/deposit", methods=["GET", "POST"])
-@login_required
-def deposit():
-
-    if request.method == "POST":
-
-        amount = float(request.form.get("amount", 0))
-        transaction_pin = request.form.get("transaction_pin", "")
-        description = request.form.get("description", "")
-
-        if amount <= 0:
-            flash("Please enter a valid deposit amount.", "danger")
-            return redirect(url_for("deposit"))
-
-        # Your PIN verification should be done here.
-        # Do not store transaction PINs as plain text.
-
-        current_user.wallet_balance += amount
-
-        db.session.commit()
-
-        flash(
-            f"Deposit of ₦{amount:,.2f} successful.",
-            "success"
-        )
-
-        return redirect(url_for("balance"))
-
-    return render_template("deposit.html")
-
-Important: If your existing app.py already has a deposit() route, don't add a second one. Keep the existing route and make sure its form field names match:
-
-amount
-transaction_pin
-description
-
-Also, for a real-money application, don't rely on a client-side form to enforce balances, PIN rules, or transaction authorization; those checks must happen server-side.
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe

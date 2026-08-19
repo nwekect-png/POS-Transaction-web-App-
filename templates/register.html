@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,10 +113,16 @@
 
     </style>
 
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Registration</title>
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
 </head>
 
 <body>
 
+<<<<<<< HEAD
 <div class="container">
 
     <div class="card">
@@ -228,3 +235,75 @@
 
 </body>
 </html>
+=======
+    <h1>POS TRANSACTION WEB APP</h1>
+
+    <h2>Create Account</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register') }}">
+
+        <label>Full Name</label><br>
+        <input type="text" name="full_name" required>
+        <br><br>
+
+        <label>Username</label><br>
+        <input type="text" name="username" required>
+        <br><br>
+
+        <label>Email</label><br>
+        <input type="email" name="email" required>
+        <br><br>
+
+        <label>Phone</label><br>
+        <input type="text" name="phone">
+        <br><br>
+
+        <label>Password</label><br>
+        <input type="password" name="password" required>
+        <br><br>
+
+        <label>Confirm Password</label><br>
+        <input type="password" name="confirm_password" required>
+        <br><br>
+
+        <label>Transaction PIN</label><br>
+        <input
+            type="password"
+            name="transaction_pin"
+            maxlength="4"
+            pattern="[0-9]{4}"
+            placeholder="4-digit PIN"
+        >
+        <br><br>
+
+        <label>Account Type</label><br>
+
+        <select name="role">
+            <option value="Agent">POS Agent</option>
+            <option value="Admin">Administrator</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+    <p>
+        Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
+    </p>
+
+</body>
+</html>
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe

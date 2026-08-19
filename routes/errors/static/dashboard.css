@@ -1,0 +1,853 @@
+/* =========================================================
+   POS TRANSACTION WEB APP
+   DASHBOARD CSS
+   Sending & Receiving Money
+   ========================================================= */
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #222;
+    min-height: 100vh;
+}
+
+
+/* ---------- LINKS ---------- */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ---------- NAVBAR ---------- */
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+    background: #172554;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 40px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-brand a {
+    color: white;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-menu a {
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-menu a.active {
+    background: #2563eb;
+}
+
+
+/* ---------- DASHBOARD CONTAINER ---------- */
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    padding: 30px 40px;
+}
+
+
+/* ---------- PAGE HEADER ---------- */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 30px;
+    color: #172554;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+
+/* ---------- USER WELCOME ---------- */
+
+.welcome-box {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-box h2 {
+    color: #172554;
+    margin-bottom: 8px;
+}
+
+.welcome-box p {
+    color: #64748b;
+}
+
+
+/* ---------- BALANCE CARD ---------- */
+
+.balance-card {
+    background: linear-gradient(
+        135deg,
+        #172554,
+        #1d4ed8
+    );
+
+    color: white;
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 8px 20px rgba(23, 37, 84, 0.25);
+}
+
+.balance-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.balance-card-header h3 {
+    font-size: 16px;
+    font-weight: normal;
+    opacity: 0.9;
+}
+
+.balance-card .balance-label {
+    font-size: 15px;
+    opacity: 0.85;
+
+    margin-bottom: 8px;
+}
+
+.balance-card .balance-amount {
+    font-size: 40px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+.balance-card .account-number {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+
+/* ---------- BALANCE ACTIONS ---------- */
+
+.balance-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.balance-actions a {
+    background: white;
+    color: #172554;
+
+    padding: 11px 20px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+    transition: 0.3s ease;
+}
+
+.balance-actions a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ---------- STATISTICS ---------- */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 22px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+
+    transition: 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 7px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #64748b;
+
+    margin-bottom: 12px;
+}
+
+.stat-card .stat-value {
+    font-size: 25px;
+    font-weight: bold;
+    color: #172554;
+}
+
+.stat-card .stat-description {
+    margin-top: 8px;
+
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+
+/* ---------- QUICK ACTIONS ---------- */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.section-title h2 {
+    color: #172554;
+    font-size: 22px;
+}
+
+.section-title a {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 35px;
+}
+
+.action-card {
+    background: white;
+
+    padding: 25px 20px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    text-align: center;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+.action-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.action-card h3 {
+    font-size: 17px;
+    color: #172554;
+
+    margin-bottom: 8px;
+}
+
+.action-card p {
+    color: #64748b;
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* ---------- SEND MONEY ---------- */
+
+.send-money-card {
+    border-top: 4px solid #2563eb;
+}
+
+.send-money-card .action-icon {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+
+/* ---------- RECEIVE MONEY ---------- */
+
+.receive-money-card {
+    border-top: 4px solid #16a34a;
+}
+
+.receive-money-card .action-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+
+/* ---------- DEPOSIT ---------- */
+
+.deposit-card {
+    border-top: 4px solid #7c3aed;
+}
+
+.deposit-card .action-icon {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+
+/* ---------- WITHDRAW ---------- */
+
+.withdraw-card {
+    border-top: 4px solid #ea580c;
+}
+
+.withdraw-card .action-icon {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+
+/* ---------- TRANSACTION SECTION ---------- */
+
+.transaction-section {
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+
+    margin-bottom: 30px;
+}
+
+
+/* ---------- TRANSACTION TABLE ---------- */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 10px;
+}
+
+.transaction-table th {
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 13px;
+
+    text-align: left;
+
+    padding: 14px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.transaction-table td {
+    padding: 15px 14px;
+
+    font-size: 14px;
+
+    color: #334155;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.transaction-table tr:hover {
+    background: #f8fafc;
+}
+
+
+/* ---------- TRANSACTION TYPE ---------- */
+
+.transaction-type {
+    font-weight: bold;
+}
+
+.transaction-sent {
+    color: #dc2626;
+}
+
+.transaction-received {
+    color: #16a34a;
+}
+
+.transaction-deposit {
+    color: #2563eb;
+}
+
+.transaction-withdraw {
+    color: #ea580c;
+}
+
+
+/* ---------- STATUS ---------- */
+
+.status {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.status.completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status.failed {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status.cancelled {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.btn {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    border-radius: 7px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-success {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #15803d;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-warning {
+    background: #ea580c;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #c2410c;
+}
+
+
+/* ---------- NOTIFICATIONS ---------- */
+
+.notification-box {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    margin-bottom: 30px;
+}
+
+.notification {
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    font-size: 14px;
+}
+
+.notification:last-child {
+    border-bottom: none;
+}
+
+.notification.unread {
+    background: #eff6ff;
+
+    font-weight: bold;
+}
+
+
+/* ---------- ALERTS ---------- */
+
+.alert {
+    padding: 14px 18px;
+
+    border-radius: 7px;
+
+    margin-bottom: 20px;
+
+    font-size: 14px;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: #166534;
+
+    border: 1px solid #bbf7d0;
+}
+
+.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+
+    border: 1px solid #fecaca;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    color: #92400e;
+
+    border: 1px solid #fde68a;
+}
+
+.alert-info {
+    background: #dbeafe;
+    color: #1e40af;
+
+    border: 1px solid #bfdbfe;
+}
+
+
+/* ---------- PROFILE SUMMARY ---------- */
+
+.profile-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+
+    font-weight: bold;
+}
+
+.profile-info h3 {
+    color: #172554;
+    margin-bottom: 5px;
+}
+
+.profile-info p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ---------- FOOTER ---------- */
+
+.footer {
+    background: #172554;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 20px;
+
+    margin-top: 40px;
+
+    font-size: 13px;
+}
+
+.footer p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .quick-actions {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .navbar {
+        padding: 15px 25px;
+    }
+
+    .navbar-menu {
+        gap: 3px;
+    }
+
+    .navbar-menu a {
+        padding: 8px 9px;
+        font-size: 13px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .navbar-menu {
+        width: 100%;
+
+        overflow-x: auto;
+
+        padding-bottom: 5px;
+    }
+
+    .dashboard-container {
+        padding: 25px 20px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .balance-card .balance-amount {
+        font-size: 32px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        flex-direction: column;
+
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .dashboard-container {
+        padding: 20px 15px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 25px;
+    }
+
+    .balance-card {
+        padding: 22px;
+    }
+
+    .balance-card .balance-amount {
+        font-size: 28px;
+    }
+
+    .balance-actions {
+        flex-direction: column;
+    }
+
+    .balance-actions a {
+        text-align: center;
+        width: 100%;
+    }
+
+    .transaction-section {
+        padding: 15px;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}

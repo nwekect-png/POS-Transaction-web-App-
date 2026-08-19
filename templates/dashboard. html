@@ -1,0 +1,40 @@
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    transactions = Transaction.query.order_by(
+        Transaction.created_at.desc()
+    ).limit(10).all()
+
+    total_sent = 0
+    total_received = 0
+
+    for transaction in transactions:
+        transaction_type = (
+            transaction.transaction_type or ""
+        ).lower()
+
+        if transaction_type in [
+            "send",
+            "sent",
+            "transfer",
+            "withdrawal"
+        ]:
+            total_sent += transaction.amount or 0
+
+        elif transaction_type in [
+            "receive",
+            "received",
+            "deposit"
+        ]:
+            total_received += transaction.amount or 0
+
+    transaction_count = Transaction.query.count()
+
+    return render_template(
+        "dashboard.html",
+        transactions=transactions,
+        total_sent=total_sent,
+        total_received=total_received,
+        transaction_count=transaction_count,
+        current_year=datetime.utcnow().year
+    )

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,10 +25,40 @@
         }
 
         /* SIDEBAR */
+=======
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - POS Transaction Web App</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
+<<<<<<< HEAD
             width: 250px;
             height: 100vh;
             background: rgba(5, 18, 40, 0.96);
@@ -35,10 +66,23 @@
             padding: 25px 15px;
             box-shadow: 5px 0 25px rgba(0,0,0,0.25);
             z-index: 1000;
+=======
+
+            width: 250px;
+            height: 100vh;
+
+            background: #063970;
+            color: white;
+
+            padding: 20px 15px;
+
+            overflow-y: auto;
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         }
 
         .logo {
             text-align: center;
+<<<<<<< HEAD
             margin-bottom: 30px;
         }
 
@@ -144,11 +188,105 @@
             padding: 9px 15px;
             border-radius: 30px;
             backdrop-filter: blur(10px);
+=======
+            padding: 10px 5px 25px;
+
+            border-bottom: 1px solid
+            rgba(255,255,255,0.15);
+        }
+
+        .logo h2 {
+            margin: 0;
+            color: white;
+            font-size: 22px;
+        }
+
+        .logo p {
+            margin: 6px 0 0;
+            color: #dceaff;
+            font-size: 12px;
+        }
+
+        .menu {
+            margin-top: 20px;
+        }
+
+        .menu-title {
+            color: #9fc5ee;
+            font-size: 11px;
+            text-transform: uppercase;
+            margin: 15px 10px 8px;
+            font-weight: bold;
+        }
+
+        .menu a {
+            display: block;
+
+            padding: 12px 14px;
+
+            margin-bottom: 5px;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #0b5ed7;
+        }
+
+        .menu a.active {
+            background: #0b5ed7;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            height: 70px;
+
+            background: white;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 0 30px;
+
+            border-bottom: 1px solid #e4e8ee;
+        }
+
+        .topbar h2 {
+            margin: 0;
+            color: #222;
+            font-size: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         }
 
         .avatar {
             width: 40px;
             height: 40px;
+<<<<<<< HEAD
             background: linear-gradient(135deg, #00d4ff, #0072ff);
             border-radius: 50%;
             display: flex;
@@ -199,10 +337,161 @@
         .section-title {
             margin: 25px 0 15px;
             font-size: 19px;
+=======
+
+            border-radius: 50%;
+
+            background: #0b5ed7;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: #777;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin: 0 0 7px;
+            font-size: 26px;
+            color: #222;
+        }
+
+        .welcome p {
+            margin: 0;
+            color: #777;
+        }
+
+        /* =========================
+           FLASH MESSAGE
+        ========================= */
+
+        .alert {
+            padding: 13px 16px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .alert-info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        /* =========================
+           BALANCE CARD
+        ========================= */
+
+        .balance-card {
+            background: #0b5ed7;
+            color: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 5px 15px
+            rgba(0,0,0,0.10);
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .balance {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 8px 0 20px;
+        }
+
+        .balance-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .balance-button {
+            display: inline-block;
+
+            padding: 10px 18px;
+
+            background: white;
+
+            color: #0b5ed7;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .balance-button:hover {
+            background: #f0f0f0;
+        }
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .section-title {
+            margin: 0 0 15px;
+
+            font-size: 19px;
+
+            color: #222;
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         }
 
         .actions {
             display: grid;
+<<<<<<< HEAD
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
         }
@@ -566,4 +855,724 @@
 </div>
 
 </body>
+=======
+
+            grid-template-columns:
+            repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: #333;
+
+            border: 1px solid #e5e9ef;
+
+            transition: 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow: 0 5px 18px
+            rgba(0,0,0,0.08);
+        }
+
+        .action-icon {
+            font-size: 28px;
+
+            margin-bottom: 10px;
+        }
+
+        .action-card h3 {
+            margin: 0 0 6px;
+
+            font-size: 16px;
+        }
+
+        .action-card p {
+            margin: 0;
+
+            color: #777;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           TRANSACTIONS
+        ========================= */
+
+        .transaction-section {
+            background: white;
+
+            border-radius: 10px;
+
+            border: 1px solid #e5e9ef;
+
+            overflow: hidden;
+        }
+
+        .transaction-header {
+            padding: 18px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom: 1px solid #e5e9ef;
+        }
+
+        .transaction-header h2 {
+            margin: 0;
+
+            font-size: 18px;
+        }
+
+        .view-all {
+            color: #0b5ed7;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 13px 15px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8fafc;
+
+            color: #555;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+        }
+
+        tr:hover td {
+            background: #fafcff;
+        }
+
+        .success {
+            color: #198754;
+
+            background: #d1e7dd;
+
+            padding: 5px 8px;
+
+            border-radius: 5px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+
+            padding: 35px;
+
+            color: #777;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .actions {
+                grid-template-columns:
+                repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>POS TRANSACTION</h2>
+
+        <p>Send & Receive Money</p>
+
+    </div>
+
+
+    <nav class="menu">
+
+        <div class="menu-title">
+            Main
+        </div>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="active">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('balance') }}">
+            💰 Balance
+        </a>
+
+        <a href="{{ url_for('wallet') }}">
+            👛 Wallet
+        </a>
+
+
+        <div class="menu-title">
+            Transactions
+        </div>
+
+        <a href="{{ url_for('deposit') }}">
+            💵 Deposit
+        </a>
+
+        <a href="{{ url_for('withdrawal') }}">
+            💳 Cash Withdrawal
+        </a>
+
+        <a href="{{ url_for('send_money') }}">
+            📤 Send Money
+        </a>
+
+        <a href="{{ url_for('receive_money') }}">
+            📥 Receive Money
+        </a>
+
+        <a href="{{ url_for('transaction_history') }}">
+            📋 Transaction History
+        </a>
+
+
+        <div class="menu-title">
+            Account
+        </div>
+
+        <a href="{{ url_for('profile') }}">
+            👤 Profile
+        </a>
+
+        <a href="{{ url_for('settings') }}">
+            ⚙️ Settings
+        </a>
+
+        <a href="{{ url_for('change_password') }}">
+            🔐 Change Password
+        </a>
+
+        <a href="{{ url_for('change_pin') }}">
+            🔑 Change PIN
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            🚪 Logout
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <h2>
+            Dashboard
+        </h2>
+
+
+        <div class="user-info">
+
+            <div class="avatar">
+
+                {{ current_user.full_name[:1]|upper }}
+
+            </div>
+
+            <div>
+
+                <div class="user-name">
+
+                    {{ current_user.full_name }}
+
+                </div>
+
+                <div class="user-role">
+
+                    {{ current_user.role }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages =
+            get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h1>
+                Welcome, {{ current_user.full_name }}!
+            </h1>
+
+            <p>
+                Manage your POS transactions,
+                send money and receive money.
+            </p>
+
+        </div>
+
+
+        <!-- BALANCE -->
+
+        <div class="balance-card">
+
+            <div class="balance-label">
+                Available Wallet Balance
+            </div>
+
+            <div class="balance">
+
+                ₦{{ "{:,.2f}".format(
+                    current_user.wallet_balance or 0
+                ) }}
+
+            </div>
+
+
+            <div class="balance-actions">
+
+                <a
+                    href="{{ url_for('deposit') }}"
+                    class="balance-button"
+                >
+                    + Deposit
+                </a>
+
+                <a
+                    href="{{ url_for('withdrawal') }}"
+                    class="balance-button"
+                >
+                    − Withdraw
+                </a>
+
+                <a
+                    href="{{ url_for('balance') }}"
+                    class="balance-button"
+                >
+                    View Balance
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <h2 class="section-title">
+            Quick Transactions
+        </h2>
+
+
+        <div class="actions">
+
+
+            <a
+                href="{{ url_for('send_money') }}"
+                class="action-card"
+            >
+
+                <div class="action-icon">
+                    📤
+                </div>
+
+                <h3>
+                    Send Money
+                </h3>
+
+                <p>
+                    Send money to a customer
+                    or recipient.
+                </p>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('receive_money') }}"
+                class="action-card"
+            >
+
+                <div class="action-icon">
+                    📥
+                </div>
+
+                <h3>
+                    Receive Money
+                </h3>
+
+                <p>
+                    Receive money from a
+                    customer or sender.
+                </p>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('deposit') }}"
+                class="action-card"
+            >
+
+                <div class="action-icon">
+                    💵
+                </div>
+
+                <h3>
+                    Deposit
+                </h3>
+
+                <p>
+                    Add money to your
+                    wallet balance.
+                </p>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('withdrawal') }}"
+                class="action-card"
+            >
+
+                <div class="action-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Cash Withdrawal
+                </h3>
+
+                <p>
+                    Withdraw money from
+                    your wallet.
+                </p>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- RECENT TRANSACTIONS -->
+
+        <div class="transaction-section">
+
+
+            <div class="transaction-header">
+
+                <h2>
+                    Recent Transactions
+                </h2>
+
+                <a
+                    href="{{ url_for('transaction_history') }}"
+                    class="view-all"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+            {% if transactions %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Reference
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for transaction in transactions %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ transaction.transaction_reference }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ transaction.transaction_type }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if transaction.transaction_type
+                                      == "Send Money" %}
+
+                                    {{ transaction.receiver_name }}
+
+                                {% elif transaction.transaction_type
+                                      == "Receive Money" %}
+
+                                    {{ transaction.sender_name }}
+
+                                {% else %}
+
+                                    {{ transaction.receiver_name
+                                       or transaction.sender_name }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                ₦{{ "{:,.2f}".format(
+                                    transaction.amount or 0
+                                ) }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="success">
+
+                                    {{ transaction.status }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ transaction.created_at.strftime(
+                                    "%d %b %Y %H:%M"
+                                ) if transaction.created_at else "" }}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <p>
+                        No transactions found.
+                    </p>
+
+                    <p>
+                        Your recent transactions will
+                        appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            © {{ current_year }}
+            POS Transaction Web App.
+            All rights reserved.
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+</body>
+
+>>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
 </html>

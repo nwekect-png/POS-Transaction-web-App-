@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>500 - Server Error</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .code {
+            font-size: 80px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 10px 0;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="code">500</div>
+
+        <h1>Server Error</h1>
+
+        <p>
+            Something went wrong on the server.
+            Please try again later.
+        </p>
+
+        <a href="{{ url_for('index') }}">
+            Go to Home
+        </a>
+
+    </div>
+
+</body>
+</html>

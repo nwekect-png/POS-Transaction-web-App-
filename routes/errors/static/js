@@ -1,0 +1,844 @@
+/* =========================================================
+   POS TRANSACTION WEB APP
+   MAIN JAVASCRIPT
+   Sending & Receiving Money
+   ========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   PAGE READY
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    initializeMobileMenu();
+    initializePasswordToggle();
+    initializeAmountFormatting();
+    initializeConfirmPassword();
+    initializeTransactionForms();
+    initializePinInput();
+    initializeAlerts();
+    initializeAutoHideMessages();
+    initializeSearch();
+    initializeConfirmActions();
+
+});
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+function initializeMobileMenu() {
+
+    const menuButton = document.getElementById("menuButton");
+    const navbarMenu = document.getElementById("navbarMenu");
+
+    if (!menuButton || !navbarMenu) {
+        return;
+    }
+
+    menuButton.addEventListener("click", function () {
+
+        navbarMenu.classList.toggle("show");
+
+    });
+
+}
+
+
+/* =========================================================
+   PASSWORD SHOW / HIDE
+   ========================================================= */
+
+function initializePasswordToggle() {
+
+    const toggleButtons =
+        document.querySelectorAll(".toggle-password");
+
+    toggleButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const targetId =
+                button.getAttribute("data-target");
+
+            const passwordInput =
+                document.getElementById(targetId);
+
+            if (!passwordInput) {
+                return;
+            }
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+
+                button.textContent = "Hide";
+
+            } else {
+
+                passwordInput.type = "password";
+
+                button.textContent = "Show";
+            }
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   AMOUNT FORMATTING
+   ========================================================= */
+
+function initializeAmountFormatting() {
+
+    const amountInputs =
+        document.querySelectorAll(
+            'input[name="amount"], input[data-money="true"]'
+        );
+
+    amountInputs.forEach(function (input) {
+
+        input.addEventListener("input", function () {
+
+            let value = input.value;
+
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+
+            if (parts.length > 2) {
+
+                value =
+                    parts[0] + "." + parts.slice(1).join("");
+
+            }
+
+            if (parts[1]) {
+
+                value =
+                    parts[0] + "." + parts[1].substring(0, 2);
+
+            }
+
+            input.value = value;
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   CONFIRM PASSWORD
+   ========================================================= */
+
+function initializeConfirmPassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const confirmPassword =
+        document.getElementById("confirm_password");
+
+    if (!password || !confirmPassword) {
+        return;
+    }
+
+    confirmPassword.addEventListener("input", function () {
+
+        if (confirmPassword.value === "") {
+
+            confirmPassword.setCustomValidity("");
+
+            return;
+        }
+
+        if (password.value !== confirmPassword.value) {
+
+            confirmPassword.setCustomValidity(
+                "Passwords do not match."
+            );
+
+        } else {
+
+            confirmPassword.setCustomValidity("");
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   TRANSACTION FORMS
+   ========================================================= */
+
+function initializeTransactionForms() {
+
+    const transactionForms =
+        document.querySelectorAll(
+            ".send-money-form, .receive-money-form, .deposit-form, .withdraw-form"
+        );
+
+    transactionForms.forEach(function (form) {
+
+        form.addEventListener("submit", function (event) {
+
+            const amountInput =
+                form.querySelector('input[name="amount"]');
+
+            if (!amountInput) {
+                return;
+            }
+
+            const amount =
+                parseFloat(amountInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+
+                event.preventDefault();
+
+                showMessage(
+                    "Please enter a valid amount greater than ₦0.",
+                    "danger"
+                );
+
+                amountInput.focus();
+
+                return;
+            }
+
+            if (amount > 1000000000) {
+
+                event.preventDefault();
+
+                showMessage(
+                    "The transaction amount is too large.",
+                    "danger"
+                );
+
+                amountInput.focus();
+
+            }
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   PIN INPUT
+   ========================================================= */
+
+function initializePinInput() {
+
+    const pinInputs =
+        document.querySelectorAll(
+            'input[name="pin"], input[data-pin="true"]'
+        );
+
+    pinInputs.forEach(function (input) {
+
+        input.setAttribute("maxlength", "4");
+
+        input.addEventListener("input", function () {
+
+            input.value =
+                input.value.replace(/[^0-9]/g, "");
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   PIN VISIBILITY
+   ========================================================= */
+
+function togglePinVisibility(inputId, buttonId) {
+
+    const input =
+        document.getElementById(inputId);
+
+    const button =
+        document.getElementById(buttonId);
+
+    if (!input || !button) {
+        return;
+    }
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        button.textContent = "Hide PIN";
+
+    } else {
+
+        input.type = "password";
+
+        button.textContent = "Show PIN";
+
+    }
+
+}
+
+
+/* =========================================================
+   TRANSACTION CONFIRMATION
+   ========================================================= */
+
+function confirmTransaction(type, amount) {
+
+    let message;
+
+    if (type === "send") {
+
+        message =
+            "Are you sure you want to send ₦" +
+            formatMoney(amount) +
+            "?";
+
+    } else if (type === "receive") {
+
+        message =
+            "Confirm receipt of ₦" +
+            formatMoney(amount) +
+            "?";
+
+    } else if (type === "deposit") {
+
+        message =
+            "Confirm deposit of ₦" +
+            formatMoney(amount) +
+            "?";
+
+    } else if (type === "withdraw") {
+
+        message =
+            "Confirm withdrawal of ₦" +
+            formatMoney(amount) +
+            "?";
+
+    } else {
+
+        message =
+            "Confirm this transaction?";
+
+    }
+
+    return window.confirm(message);
+}
+
+
+/* =========================================================
+   FORMAT MONEY
+   ========================================================= */
+
+function formatMoney(amount) {
+
+    const number =
+        parseFloat(amount);
+
+    if (isNaN(number)) {
+        return "0.00";
+    }
+
+    return number.toLocaleString(
+        "en-NG",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE BALANCE DISPLAY
+   ========================================================= */
+
+function updateBalance(elementId, balance) {
+
+    const element =
+        document.getElementById(elementId);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        "₦" + formatMoney(balance);
+
+}
+
+
+/* =========================================================
+   QUICK SEND MONEY
+   ========================================================= */
+
+function quickSend(amount) {
+
+    const input =
+        document.querySelector(
+            'input[name="amount"]'
+        );
+
+    if (!input) {
+        return;
+    }
+
+    input.value = amount;
+
+    input.dispatchEvent(
+        new Event("input")
+    );
+
+}
+
+
+/* =========================================================
+   ALERT SYSTEM
+   ========================================================= */
+
+function initializeAlerts() {
+
+    const closeButtons =
+        document.querySelectorAll(".alert-close");
+
+    closeButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const alert =
+                button.closest(".alert");
+
+            if (alert) {
+
+                alert.remove();
+
+            }
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   SHOW MESSAGE
+   ========================================================= */
+
+function showMessage(message, type = "info") {
+
+    let container =
+        document.getElementById("messageContainer");
+
+    if (!container) {
+
+        container =
+            document.createElement("div");
+
+        container.id =
+            "messageContainer";
+
+        container.style.position =
+            "fixed";
+
+        container.style.top =
+            "85px";
+
+        container.style.right =
+            "20px";
+
+        container.style.zIndex =
+            "9999";
+
+        container.style.maxWidth =
+            "350px";
+
+        document.body.appendChild(container);
+
+    }
+
+    const alert =
+        document.createElement("div");
+
+    alert.className =
+        "alert alert-" + type;
+
+    alert.textContent =
+        message;
+
+    container.appendChild(alert);
+
+    setTimeout(function () {
+
+        alert.remove();
+
+    }, 5000);
+
+}
+
+
+/* =========================================================
+   AUTO HIDE FLASH MESSAGES
+   ========================================================= */
+
+function initializeAutoHideMessages() {
+
+    const alerts =
+        document.querySelectorAll(
+            ".alert[data-auto-hide='true']"
+        );
+
+    alerts.forEach(function (alert) {
+
+        setTimeout(function () {
+
+            alert.style.opacity = "0";
+
+            alert.style.transition =
+                "opacity 0.5s";
+
+            setTimeout(function () {
+
+                alert.remove();
+
+            }, 500);
+
+        }, 5000);
+
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH TRANSACTIONS
+   ========================================================= */
+
+function initializeSearch() {
+
+    const searchInput =
+        document.getElementById(
+            "transactionSearch"
+        );
+
+    const table =
+        document.getElementById(
+            "transactionTable"
+        );
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+    searchInput.addEventListener("input", function () {
+
+        const search =
+            searchInput.value.toLowerCase();
+
+        const rows =
+            table.querySelectorAll("tbody tr");
+
+        rows.forEach(function (row) {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            if (text.includes(search)) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   CONFIRM BUTTONS
+   ========================================================= */
+
+function initializeConfirmActions() {
+
+    const buttons =
+        document.querySelectorAll(
+            "[data-confirm]"
+        );
+
+    buttons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function (event) {
+
+                const message =
+                    button.getAttribute(
+                        "data-confirm"
+                    );
+
+                if (
+                    message &&
+                    !window.confirm(message)
+                ) {
+
+                    event.preventDefault();
+
+                }
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   SEND MONEY VALIDATION
+   ========================================================= */
+
+function validateSendMoney() {
+
+    const recipient =
+        document.getElementById("recipient");
+
+    const amount =
+        document.getElementById("amount");
+
+    const pin =
+        document.getElementById("pin");
+
+    if (!recipient || !amount || !pin) {
+        return true;
+    }
+
+    if (recipient.value.trim() === "") {
+
+        showMessage(
+            "Please enter the recipient.",
+            "danger"
+        );
+
+        recipient.focus();
+
+        return false;
+    }
+
+    const amountValue =
+        parseFloat(amount.value);
+
+    if (
+        isNaN(amountValue) ||
+        amountValue <= 0
+    ) {
+
+        showMessage(
+            "Enter a valid amount.",
+            "danger"
+        );
+
+        amount.focus();
+
+        return false;
+    }
+
+    if (!/^\d{4}$/.test(pin.value)) {
+
+        showMessage(
+            "PIN must contain exactly 4 digits.",
+            "danger"
+        );
+
+        pin.focus();
+
+        return false;
+    }
+
+    return true;
+}
+
+
+/* =========================================================
+   RECEIVE MONEY VALIDATION
+   ========================================================= */
+
+function validateReceiveMoney() {
+
+    const amount =
+        document.getElementById("amount");
+
+    if (!amount) {
+        return true;
+    }
+
+    const value =
+        parseFloat(amount.value);
+
+    if (isNaN(value) || value <= 0) {
+
+        showMessage(
+            "Please enter a valid amount.",
+            "danger"
+        );
+
+        amount.focus();
+
+        return false;
+    }
+
+    return true;
+}
+
+
+/* =========================================================
+   COPY TRANSACTION REFERENCE
+   ========================================================= */
+
+function copyReference(referenceId) {
+
+    const element =
+        document.getElementById(referenceId);
+
+    if (!element) {
+        return;
+    }
+
+    const text =
+        element.textContent.trim();
+
+    navigator.clipboard.writeText(text)
+        .then(function () {
+
+            showMessage(
+                "Transaction reference copied.",
+                "success"
+            );
+
+        })
+        .catch(function () {
+
+            showMessage(
+                "Unable to copy reference.",
+                "danger"
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   PRINT RECEIPT
+   ========================================================= */
+
+function printReceipt() {
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   PREVENT DOUBLE SUBMISSION
+   ========================================================= */
+
+function preventDoubleSubmit(form) {
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener(
+        "submit",
+        function () {
+
+            const submitButton =
+                form.querySelector(
+                    'button[type="submit"]'
+                );
+
+            if (!submitButton) {
+                return;
+            }
+
+            if (submitButton.disabled) {
+                return;
+            }
+
+            submitButton.disabled = true;
+
+            submitButton.dataset.originalText =
+                submitButton.textContent;
+
+            submitButton.textContent =
+                "Processing...";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE ALL TRANSACTION FORMS
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const forms =
+            document.querySelectorAll(
+                "form"
+            );
+
+        forms.forEach(function (form) {
+
+            if (
+                form.classList.contains(
+                    "send-money-form"
+                ) ||
+                form.classList.contains(
+                    "receive-money-form"
+                ) ||
+                form.classList.contains(
+                    "deposit-form"
+                ) ||
+                form.classList.contains(
+                    "withdraw-form"
+                )
+            ) {
+
+                preventDoubleSubmit(form);
+
+            }
+
+        });
+
+    }
+);
