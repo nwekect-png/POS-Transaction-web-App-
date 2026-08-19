@@ -1,24 +1,33 @@
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    session,
+    send_file
+)
+
+from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import (
     LoginManager,
     UserMixin,
     login_user,
-    login_required,
     logout_user,
+    login_required,
     current_user
 )
-import os
-import secrets
-import uuid
-from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
 
-from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
+
 import os
 import secrets
 import string
@@ -37,12 +46,15 @@ app.config["SECRET_KEY"] = os.environ.get(
     secrets.token_hex(32)
 )
 
-# ------------------------------------------------------------
-# DATABASE
-# ------------------------------------------------------------
+
+# ============================================================
+# DATABASE CONFIGURATION
+# ============================================================
+
 database_url = os.environ.get("DATABASE_URL")
 
 if database_url:
+
     # Render/PostgreSQL compatibility
     if database_url.startswith("postgres://"):
         database_url = database_url.replace(
@@ -52,11 +64,14 @@ if database_url:
         )
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
 else:
-    # Local development database
+
+    # Local SQLite database
     app.config["SQLALCHEMY_DATABASE_URI"] = (
         "sqlite:///pos_transaction.db"
     )
+
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -68,20 +83,30 @@ db = SQLAlchemy(app)
 # ============================================================
 
 login_manager = LoginManager()
+
 login_manager.init_app(app)
+
 login_manager.login_view = "login"
-login_manager.login_message = "Please login to continue."
+
+login_manager.login_message = (
+    "Please login to continue."
+)
+
 login_manager.login_message_category = "warning"
 
 
 # ============================================================
-# DATABASE MODELS
+# USER MODEL
 # ============================================================
 
 class User(UserMixin, db.Model):
+
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     full_name = db.Column(
         db.String(150),
@@ -117,17 +142,20 @@ class User(UserMixin, db.Model):
 
     role = db.Column(
         db.String(30),
-        default="Agent"
+        default="Agent",
+        nullable=False
     )
 
     status = db.Column(
         db.String(30),
-        default="Active"
+        default="Active",
+        nullable=False
     )
 
     wallet_balance = db.Column(
         db.Float,
-        default=0.00
+        default=0.00,
+        nullable=False
     )
 
     created_at = db.Column(
@@ -139,7 +167,12 @@ class User(UserMixin, db.Model):
         return f"<User {self.username}>"
 
 
+# ============================================================
+# TRANSACTION MODEL
+# ============================================================
+
 class Transaction(db.Model):
+
     __tablename__ = "transactions"
 
     id = db.Column(
@@ -190,7 +223,8 @@ class Transaction(db.Model):
 
     status = db.Column(
         db.String(30),
-        default="Success"
+        default="Success",
+        nullable=False
     )
 
     user_id = db.Column(
@@ -208,7 +242,12 @@ class Transaction(db.Model):
         return f"<Transaction {self.transaction_reference}>"
 
 
+# ============================================================
+# RECEIPT MODEL
+# ============================================================
+
 class Receipt(db.Model):
+
     __tablename__ = "receipts"
 
     id = db.Column(
@@ -252,14 +291,20 @@ class Receipt(db.Model):
 
 
 # ============================================================
-# LOGIN LOADER
+# LOGIN USER LOADER
 # ============================================================
 
 @login_manager.user_loader
 def load_user(user_id):
+
     try:
-        return db.session.get(User, int(user_id))
+        return db.session.get(
+            User,
+            int(user_id)
+        )
+
     except (ValueError, TypeError):
+
         return None
 
 
@@ -274,44 +319,72 @@ def admin_required(view_function):
     def wrapped_view(*args, **kwargs):
 
         if current_user.role != "Admin":
+
             flash(
                 "Administrator access required.",
                 "danger"
             )
-            return redirect(url_for("dashboard"))
 
-        return view_function(*args, **kwargs)
+            return redirect(
+                url_for("dashboard")
+            )
+
+        return view_function(
+            *args,
+            **kwargs
+        )
 
     return wrapped_view
 
 
 # ============================================================
-# HELPER FUNCTIONS
+# HELPER - GENERATE TRANSACTION REFERENCE
 # ============================================================
 
 def generate_reference():
 
-    timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    timestamp = datetime.utcnow().strftime(
+        "%Y%m%d%H%M%S"
+    )
 
     random_part = "".join(
-        secrets.choice(string.ascii_uppercase + string.digits)
+        secrets.choice(
+            string.ascii_uppercase +
+            string.digits
+        )
         for _ in range(6)
     )
 
-    return f"TXN-{timestamp}-{random_part}"
+    return (
+        f"TXN-{timestamp}-{random_part}"
+    )
 
+
+# ============================================================
+# HELPER - GENERATE RECEIPT NUMBER
+# ============================================================
 
 def generate_receipt():
 
-    timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    timestamp = datetime.utcnow().strftime(
+        "%Y%m%d%H%M%S"
+    )
 
     random_part = "".join(
-        secrets.choice(string.digits)
+        secrets.choice(
+            string.digits
+        )
         for _ in range(5)
     )
 
-    return f"RCP-{timestamp}-{random_part}"
+    return (
+        f"RCP-{timestamp}-{random_part}"
+    )
 
+
+# ============================================================
+# HELPER - CREATE TRANSACTION
+# ============================================================
 
 def create_transaction(
     transaction_type,
@@ -341,6 +414,10 @@ def create_transaction(
     return transaction
 
 
+# ============================================================
+# HELPER - CREATE RECEIPT
+# ============================================================
+
 def create_receipt(
     transaction,
     customer=None
@@ -348,10 +425,14 @@ def create_receipt(
 
     receipt = Receipt(
         receipt_number=generate_receipt(),
-        transaction_reference=transaction.transaction_reference,
+        transaction_reference=(
+            transaction.transaction_reference
+        ),
         customer=customer,
         amount=transaction.amount,
-        transaction_type=transaction.transaction_type
+        transaction_type=(
+            transaction.transaction_type
+        )
     )
 
     db.session.add(receipt)
@@ -369,22 +450,35 @@ def index():
     if current_user.is_authenticated:
 
         if current_user.role == "Admin":
-            return redirect(url_for("admin_dashboard"))
 
-        return redirect(url_for("dashboard"))
+            return redirect(
+                url_for("admin_dashboard")
+            )
 
-    return render_template("index.html")
+        return redirect(
+            url_for("dashboard")
+        )
+
+    return render_template(
+        "index.html"
+    )
 
 
 # ============================================================
 # REGISTER
 # ============================================================
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route(
+    "/register",
+    methods=["GET", "POST"]
+)
 def register():
 
     if current_user.is_authenticated:
-        return redirect(url_for("dashboard"))
+
+        return redirect(
+            url_for("dashboard")
+        )
 
     if request.method == "POST":
 
@@ -423,61 +517,138 @@ def register():
             ""
         ).strip()
 
+        # ----------------------------------------------------
+        # VALIDATION
+        # ----------------------------------------------------
+
         if not full_name:
-            flash("Full name is required.", "danger")
-            return render_template("register.html")
+
+            flash(
+                "Full name is required.",
+                "danger"
+            )
+
+            return render_template(
+                "register.html"
+            )
 
         if not username:
-            flash("Username is required.", "danger")
-            return render_template("register.html")
+
+            flash(
+                "Username is required.",
+                "danger"
+            )
+
+            return render_template(
+                "register.html"
+            )
 
         if not email:
-            flash("Email is required.", "danger")
-            return render_template("register.html")
+
+            flash(
+                "Email is required.",
+                "danger"
+            )
+
+            return render_template(
+                "register.html"
+            )
 
         if not password:
-            flash("Password is required.", "danger")
-            return render_template("register.html")
+
+            flash(
+                "Password is required.",
+                "danger"
+            )
+
+            return render_template(
+                "register.html"
+            )
 
         if password != confirm_password:
+
             flash(
                 "Passwords do not match.",
                 "danger"
             )
-            return render_template("register.html")
+
+            return render_template(
+                "register.html"
+            )
+
+        # ----------------------------------------------------
+        # CHECK USERNAME
+        # ----------------------------------------------------
 
         existing_username = User.query.filter_by(
             username=username
         ).first()
 
         if existing_username:
+
             flash(
                 "Username already exists.",
                 "danger"
             )
-            return render_template("register.html")
+
+            return render_template(
+                "register.html"
+            )
+
+        # ----------------------------------------------------
+        # CHECK EMAIL
+        # ----------------------------------------------------
 
         existing_email = User.query.filter_by(
             email=email
         ).first()
 
         if existing_email:
+
             flash(
                 "Email already exists.",
                 "danger"
             )
-            return render_template("register.html")
 
-        hashed_password = generate_password_hash(
-            password
+            return render_template(
+                "register.html"
+            )
+
+        # ----------------------------------------------------
+        # HASH PASSWORD
+        # ----------------------------------------------------
+
+        hashed_password = (
+            generate_password_hash(password)
         )
 
         hashed_pin = None
 
         if transaction_pin:
-            hashed_pin = generate_password_hash(
-                transaction_pin
+
+            if (
+                not transaction_pin.isdigit()
+                or len(transaction_pin) != 4
+            ):
+
+                flash(
+                    "Transaction PIN must contain exactly 4 digits.",
+                    "danger"
+                )
+
+                return render_template(
+                    "register.html"
+                )
+
+            hashed_pin = (
+                generate_password_hash(
+                    transaction_pin
+                )
             )
+
+        # ----------------------------------------------------
+        # CREATE USER
+        # ----------------------------------------------------
 
         user = User(
             full_name=full_name,
@@ -492,6 +663,7 @@ def register():
         )
 
         db.session.add(user)
+
         db.session.commit()
 
         flash(
@@ -499,24 +671,36 @@ def register():
             "success"
         )
 
-        return redirect(url_for("login"))
+        return redirect(
+            url_for("login")
+        )
 
-    return render_template("register.html")
+    return render_template(
+        "register.html"
+    )
 
 
 # ============================================================
 # LOGIN
 # ============================================================
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route(
+    "/login",
+    methods=["GET", "POST"]
+)
 def login():
 
     if current_user.is_authenticated:
 
         if current_user.role == "Admin":
-            return redirect(url_for("admin_dashboard"))
 
-        return redirect(url_for("dashboard"))
+            return redirect(
+                url_for("admin_dashboard")
+            )
+
+        return redirect(
+            url_for("dashboard")
+        )
 
     if request.method == "POST":
 
@@ -530,6 +714,17 @@ def login():
             ""
         )
 
+        if not username or not password:
+
+            flash(
+                "Username and password are required.",
+                "danger"
+            )
+
+            return render_template(
+                "login.html"
+            )
+
         user = User.query.filter_by(
             username=username
         ).first()
@@ -541,7 +736,9 @@ def login():
                 "danger"
             )
 
-            return render_template("login.html")
+            return render_template(
+                "login.html"
+            )
 
         if user.status != "Active":
 
@@ -550,7 +747,9 @@ def login():
                 "danger"
             )
 
-            return render_template("login.html")
+            return render_template(
+                "login.html"
+            )
 
         if not check_password_hash(
             user.password,
@@ -562,7 +761,9 @@ def login():
                 "danger"
             )
 
-            return render_template("login.html")
+            return render_template(
+                "login.html"
+            )
 
         login_user(user)
 
@@ -576,11 +777,18 @@ def login():
         )
 
         if user.role == "Admin":
-            return redirect(url_for("admin_dashboard"))
 
-        return redirect(url_for("dashboard"))
+            return redirect(
+                url_for("admin_dashboard")
+            )
 
-    return render_template("login.html")
+        return redirect(
+            url_for("dashboard")
+        )
+
+    return render_template(
+        "login.html"
+    )
 
 
 # ============================================================
@@ -600,67 +808,108 @@ def logout():
         "success"
     )
 
-    return redirect(url_for("login"))
+    return redirect(
+        url_for("login")
+    )
 
 
 # ============================================================
 # DASHBOARD
 # ============================================================
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    balance = current_user.wallet_balance or 0.00
+
+    balance = (
+        current_user.wallet_balance or 0.00
+    )
+
+    transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .limit(10)
+        .all()
+    )
+
+    total_transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id
+        )
+        .count()
+    )
+
+    total_deposits = (
+        db.session.query(
+            db.func.sum(
+                Transaction.amount
+            )
+        )
+        .filter_by(
+            user_id=current_user.id,
+            transaction_type="Deposit",
+            status="Success"
+        )
+        .scalar()
+        or 0
+    )
+
+    total_withdrawals = (
+        db.session.query(
+            db.func.sum(
+                Transaction.amount
+            )
+        )
+        .filter_by(
+            user_id=current_user.id,
+            transaction_type="Withdrawal",
+            status="Success"
+        )
+        .scalar()
+        or 0
+    )
+
+    total_sent = (
+        db.session.query(
+            db.func.sum(
+                Transaction.amount
+            )
+        )
+        .filter_by(
+            user_id=current_user.id,
+            transaction_type="Send Money",
+            status="Success"
+        )
+        .scalar()
+        or 0
+    )
+
+    total_received = (
+        db.session.query(
+            db.func.sum(
+                Transaction.amount
+            )
+        )
+        .filter_by(
+            user_id=current_user.id,
+            transaction_type="Receive Money",
+            status="Success"
+        )
+        .scalar()
+        or 0
+    )
 
     return render_template(
         "dashboard.html",
         balance=balance,
-        user=current_user
-    )
-
-    transactions = Transaction.query.filter_by(
-        user_id=current_user.id
-    ).order_by(
-        Transaction.created_at.desc()
-    ).limit(10).all()
-
-    total_transactions = Transaction.query.filter_by(
-        user_id=current_user.id
-    ).count()
-
-    total_deposits = db.session.query(
-        db.func.sum(Transaction.amount)
-    ).filter_by(
-        user_id=current_user.id,
-        transaction_type="Deposit",
-        status="Success"
-    ).scalar() or 0
-
-    total_withdrawals = db.session.query(
-        db.func.sum(Transaction.amount)
-    ).filter_by(
-        user_id=current_user.id,
-        transaction_type="Withdrawal",
-        status="Success"
-    ).scalar() or 0
-
-    total_sent = db.session.query(
-        db.func.sum(Transaction.amount)
-    ).filter_by(
-        user_id=current_user.id,
-        transaction_type="Send Money",
-        status="Success"
-    ).scalar() or 0
-
-    total_received = db.session.query(
-        db.func.sum(Transaction.amount)
-    ).filter_by(
-        user_id=current_user.id,
-        transaction_type="Receive Money",
-        status="Success"
-    ).scalar() or 0
-
-    return render_template(
-        "dashboard.html",
+        wallet_balance=balance,
+        user=current_user,
         transactions=transactions,
         total_transactions=total_transactions,
         total_deposits=total_deposits,
@@ -679,23 +928,41 @@ def dashboard():
 @admin_required
 def admin_dashboard():
 
-    users = User.query.order_by(
-        User.created_at.desc()
-    ).all()
+    users = (
+        User.query
+        .order_by(
+            User.created_at.desc()
+        )
+        .all()
+    )
 
-    transactions = Transaction.query.order_by(
-        Transaction.created_at.desc()
-    ).limit(20).all()
+    transactions = (
+        Transaction.query
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .limit(20)
+        .all()
+    )
 
     total_users = User.query.count()
 
-    total_transactions = Transaction.query.count()
+    total_transactions = (
+        Transaction.query.count()
+    )
 
-    total_money = db.session.query(
-        db.func.sum(Transaction.amount)
-    ).filter_by(
-        status="Success"
-    ).scalar() or 0
+    total_money = (
+        db.session.query(
+            db.func.sum(
+                Transaction.amount
+            )
+        )
+        .filter_by(
+            status="Success"
+        )
+        .scalar()
+        or 0
+    )
 
     return render_template(
         "admin.html",
@@ -711,7 +978,10 @@ def admin_dashboard():
 # PROFILE
 # ============================================================
 
-@app.route("/profile", methods=["GET", "POST"])
+@app.route(
+    "/profile",
+    methods=["GET", "POST"]
+)
 @login_required
 def profile():
 
@@ -739,7 +1009,9 @@ def profile():
                 "danger"
             )
 
-            return redirect(url_for("profile"))
+            return redirect(
+                url_for("profile")
+            )
 
         email_user = User.query.filter(
             User.email == email,
@@ -753,7 +1025,9 @@ def profile():
                 "danger"
             )
 
-            return redirect(url_for("profile"))
+            return redirect(
+                url_for("profile")
+            )
 
         current_user.full_name = full_name
         current_user.email = email
@@ -766,9 +1040,13 @@ def profile():
             "success"
         )
 
-        return redirect(url_for("profile"))
+        return redirect(
+            url_for("profile")
+        )
 
-    return render_template("profile.html")
+    return render_template(
+        "profile.html"
+    )
 
 
 # ============================================================
@@ -778,7 +1056,10 @@ def profile():
 @app.route("/settings")
 @login_required
 def settings():
-    return render_template("settings.html")
+
+    return render_template(
+        "settings.html"
+    )
 
 
 # ============================================================
@@ -789,10 +1070,8 @@ def settings():
     "/change-password",
     methods=["GET", "POST"]
 )
+@login_required
 def change_password():
-
-    if not current_user.is_authenticated:
-        return redirect(url_for("login"))
 
     if request.method == "POST":
 
@@ -847,8 +1126,10 @@ def change_password():
                 url_for("change_password")
             )
 
-        current_user.password = generate_password_hash(
-            new_password
+        current_user.password = (
+            generate_password_hash(
+                new_password
+            )
         )
 
         db.session.commit()
@@ -858,9 +1139,13 @@ def change_password():
             "success"
         )
 
-        return redirect(url_for("dashboard"))
+        return redirect(
+            url_for("dashboard")
+        )
 
-    return render_template("change_password.html")
+    return render_template(
+        "change_password.html"
+    )
 
 
 # ============================================================
@@ -874,7 +1159,10 @@ def change_password():
 def forgot_password():
 
     if current_user.is_authenticated:
-        return redirect(url_for("dashboard"))
+
+        return redirect(
+            url_for("dashboard")
+        )
 
     if request.method == "POST":
 
@@ -891,11 +1179,13 @@ def forgot_password():
         user = None
 
         if username:
+
             user = User.query.filter_by(
                 username=username
             ).first()
 
         if not user and email:
+
             user = User.query.filter_by(
                 email=email
             ).first()
@@ -910,9 +1200,6 @@ def forgot_password():
             return render_template(
                 "forgot_password.html"
             )
-
-        # This is a simple local reset flow.
-        # For production, use email/SMS verification.
 
         session["reset_user_id"] = user.id
 
@@ -935,7 +1222,9 @@ def forgot_password():
 )
 def reset_password():
 
-    user_id = session.get("reset_user_id")
+    user_id = session.get(
+        "reset_user_id"
+    )
 
     if not user_id:
 
@@ -944,7 +1233,9 @@ def reset_password():
             "danger"
         )
 
-        return redirect(url_for("forgot_password"))
+        return redirect(
+            url_for("forgot_password")
+        )
 
     user = db.session.get(
         User,
@@ -963,7 +1254,9 @@ def reset_password():
             "danger"
         )
 
-        return redirect(url_for("forgot_password"))
+        return redirect(
+            url_for("forgot_password")
+        )
 
     if request.method == "POST":
 
@@ -999,8 +1292,10 @@ def reset_password():
                 "reset_password.html"
             )
 
-        user.password = generate_password_hash(
-            new_password
+        user.password = (
+            generate_password_hash(
+                new_password
+            )
         )
 
         db.session.commit()
@@ -1015,7 +1310,9 @@ def reset_password():
             "success"
         )
 
-        return redirect(url_for("login"))
+        return redirect(
+            url_for("login")
+        )
 
     return render_template(
         "reset_password.html"
@@ -1066,7 +1363,10 @@ def change_pin():
                     url_for("change_pin")
                 )
 
-        if not new_pin.isdigit() or len(new_pin) != 4:
+        if (
+            not new_pin.isdigit()
+            or len(new_pin) != 4
+        ):
 
             flash(
                 "Transaction PIN must contain exactly 4 digits.",
@@ -1088,8 +1388,10 @@ def change_pin():
                 url_for("change_pin")
             )
 
-        current_user.transaction_pin = generate_password_hash(
-            new_pin
+        current_user.transaction_pin = (
+            generate_password_hash(
+                new_pin
+            )
         )
 
         db.session.commit()
@@ -1103,31 +1405,41 @@ def change_pin():
             url_for("dashboard")
         )
 
-    return render_template("change_pin.html")
+    return render_template(
+        "change_pin.html"
+    )
 
 
 # ============================================================
 # WALLET
 # ============================================================
+
 @app.route("/wallet")
 @login_required
 def wallet():
 
-    balance = current_user.wallet_balance or 0.00
+    balance = (
+        current_user.wallet_balance or 0.00
+    )
 
     return render_template(
         "balance.html",
         balance=balance,
         wallet_balance=balance
     )
+
+
 # ============================================================
 # BALANCE
 # ============================================================
+
 @app.route("/balance")
 @login_required
 def balance():
 
-    current_balance = current_user.wallet_balance or 0.00
+    current_balance = (
+        current_user.wallet_balance or 0.00
+    )
 
     return render_template(
         "balance.html",
@@ -1150,13 +1462,15 @@ def deposit():
     if request.method == "POST":
 
         try:
+
             amount = float(
                 request.form.get(
                     "amount",
                     0
                 )
             )
-        except ValueError:
+
+        except (ValueError, TypeError):
 
             flash(
                 "Enter a valid amount.",
@@ -1183,6 +1497,10 @@ def deposit():
             "Wallet deposit"
         ).strip()
 
+        if current_user.wallet_balance is None:
+
+            current_user.wallet_balance = 0.00
+
         current_user.wallet_balance += amount
 
         transaction = create_transaction(
@@ -1205,11 +1523,17 @@ def deposit():
         )
 
         return redirect(
-            url_for("receipt",
-                    reference=transaction.transaction_reference)
+            url_for(
+                "receipt",
+                reference=(
+                    transaction.transaction_reference
+                )
+            )
         )
 
-    return render_template("deposit.html")
+    return render_template(
+        "deposit.html"
+    )
 
 
 # ============================================================
@@ -1230,13 +1554,15 @@ def withdrawal():
     if request.method == "POST":
 
         try:
+
             amount = float(
                 request.form.get(
                     "amount",
                     0
                 )
             )
-        except ValueError:
+
+        except (ValueError, TypeError):
 
             flash(
                 "Enter a valid amount.",
@@ -1258,7 +1584,11 @@ def withdrawal():
                 url_for("withdrawal")
             )
 
-        if amount > current_user.wallet_balance:
+        wallet_balance = (
+            current_user.wallet_balance or 0.00
+        )
+
+        if amount > wallet_balance:
 
             flash(
                 "Insufficient wallet balance.",
@@ -1290,7 +1620,9 @@ def withdrawal():
                     url_for("withdrawal")
                 )
 
-        current_user.wallet_balance -= amount
+        current_user.wallet_balance = (
+            wallet_balance - amount
+        )
 
         transaction = create_transaction(
             transaction_type="Withdrawal",
@@ -1314,7 +1646,9 @@ def withdrawal():
         return redirect(
             url_for(
                 "receipt",
-                reference=transaction.transaction_reference
+                reference=(
+                    transaction.transaction_reference
+                )
             )
         )
 
@@ -1357,13 +1691,15 @@ def send_money():
         ).strip()
 
         try:
+
             amount = float(
                 request.form.get(
                     "amount",
                     0
                 )
             )
-        except ValueError:
+
+        except (ValueError, TypeError):
 
             flash(
                 "Enter a valid amount.",
@@ -1390,7 +1726,11 @@ def send_money():
                 url_for("send_money")
             )
 
-        if amount > current_user.wallet_balance:
+        wallet_balance = (
+            current_user.wallet_balance or 0.00
+        )
+
+        if amount > wallet_balance:
 
             flash(
                 "Insufficient wallet balance.",
@@ -1417,7 +1757,9 @@ def send_money():
                     url_for("send_money")
                 )
 
-        current_user.wallet_balance -= amount
+        current_user.wallet_balance = (
+            wallet_balance - amount
+        )
 
         transaction = create_transaction(
             transaction_type="Send Money",
@@ -1444,7 +1786,9 @@ def send_money():
         return redirect(
             url_for(
                 "receipt",
-                reference=transaction.transaction_reference
+                reference=(
+                    transaction.transaction_reference
+                )
             )
         )
 
@@ -1477,13 +1821,15 @@ def receive_money():
         ).strip()
 
         try:
+
             amount = float(
                 request.form.get(
                     "amount",
                     0
                 )
             )
-        except ValueError:
+
+        except (ValueError, TypeError):
 
             flash(
                 "Enter a valid amount.",
@@ -1505,7 +1851,13 @@ def receive_money():
                 url_for("receive_money")
             )
 
-        current_user.wallet_balance += amount
+        wallet_balance = (
+            current_user.wallet_balance or 0.00
+        )
+
+        current_user.wallet_balance = (
+            wallet_balance + amount
+        )
 
         transaction = create_transaction(
             transaction_type="Receive Money",
@@ -1530,7 +1882,9 @@ def receive_money():
         return redirect(
             url_for(
                 "receipt",
-                reference=transaction.transaction_reference
+                reference=(
+                    transaction.transaction_reference
+                )
             )
         )
 
@@ -1547,11 +1901,16 @@ def receive_money():
 @login_required
 def transaction_history():
 
-    transactions = Transaction.query.filter_by(
-        user_id=current_user.id
-    ).order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     return render_template(
         "transactions.html",
@@ -1559,34 +1918,33 @@ def transaction_history():
     )
 
 
-@app.route("/transaction-history")
-@login_required
-def transaction_history_alias():
-
-    return redirect(
-        url_for("transaction_history")
-    )
-
-
 # ============================================================
 # TRANSFER SUCCESS HISTORY
 # ============================================================
 
-@app.route("/transfer-success-history")
+@app.route(
+    "/transfer-success-history"
+)
 @login_required
 def transfer_success_history():
 
-    transactions = Transaction.query.filter_by(
-        user_id=current_user.id,
-        status="Success"
-    ).filter(
-        Transaction.transaction_type.in_([
-            "Send Money",
-            "Receive Money"
-        ])
-    ).order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id,
+            status="Success"
+        )
+        .filter(
+            Transaction.transaction_type.in_([
+                "Send Money",
+                "Receive Money"
+            ])
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     return render_template(
         "transactions.html",
@@ -1602,15 +1960,27 @@ def transfer_success_history():
 @login_required
 def reports():
 
-    transactions = Transaction.query.filter_by(
-        user_id=current_user.id
-    ).order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
+
+    total = sum(
+        transaction.amount
+        for transaction in transactions
+        if transaction.status == "Success"
+    )
 
     return render_template(
         "reports.html",
-        transactions=transactions
+        transactions=transactions,
+        total=total
     )
 
 
@@ -1624,14 +1994,19 @@ def daily_report():
 
     today = datetime.utcnow().date()
 
-    transactions = Transaction.query.filter(
-        Transaction.user_id == current_user.id,
-        db.func.date(
-            Transaction.created_at
-        ) == today
-    ).order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .filter(
+            Transaction.user_id == current_user.id,
+            db.func.date(
+                Transaction.created_at
+            ) == today
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     total = sum(
         transaction.amount
@@ -1651,7 +2026,9 @@ def daily_report():
 # SEARCH TRANSACTIONS
 # ============================================================
 
-@app.route("/search-transactions")
+@app.route(
+    "/search-transactions"
+)
 @login_required
 def search_transactions():
 
@@ -1686,9 +2063,13 @@ def search_transactions():
             )
         )
 
-    transactions = query.order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        query
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     return render_template(
         "transactions.html",
@@ -1720,10 +2101,14 @@ def receipt():
             url_for("transaction_history")
         )
 
-    transaction = Transaction.query.filter_by(
-        transaction_reference=reference,
-        user_id=current_user.id
-    ).first()
+    transaction = (
+        Transaction.query
+        .filter_by(
+            transaction_reference=reference,
+            user_id=current_user.id
+        )
+        .first()
+    )
 
     if not transaction:
 
@@ -1736,9 +2121,13 @@ def receipt():
             url_for("transaction_history")
         )
 
-    receipt_record = Receipt.query.filter_by(
-        transaction_reference=reference
-    ).first()
+    receipt_record = (
+        Receipt.query
+        .filter_by(
+            transaction_reference=reference
+        )
+        .first()
+    )
 
     return render_template(
         "receipt.html",
@@ -1751,14 +2140,20 @@ def receipt():
 # PRINT RECEIPT
 # ============================================================
 
-@app.route("/print-receipt/<reference>")
+@app.route(
+    "/print-receipt/<reference>"
+)
 @login_required
 def print_receipt(reference):
 
-    transaction = Transaction.query.filter_by(
-        transaction_reference=reference,
-        user_id=current_user.id
-    ).first()
+    transaction = (
+        Transaction.query
+        .filter_by(
+            transaction_reference=reference,
+            user_id=current_user.id
+        )
+        .first()
+    )
 
     if not transaction:
 
@@ -1771,9 +2166,13 @@ def print_receipt(reference):
             url_for("transaction_history")
         )
 
-    receipt_record = Receipt.query.filter_by(
-        transaction_reference=reference
-    ).first()
+    receipt_record = (
+        Receipt.query
+        .filter_by(
+            transaction_reference=reference
+        )
+        .first()
+    )
 
     return render_template(
         "receipt.html",
@@ -1791,11 +2190,16 @@ def print_receipt(reference):
 @login_required
 def export_report():
 
-    transactions = Transaction.query.filter_by(
-        user_id=current_user.id
-    ).order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .filter_by(
+            user_id=current_user.id
+        )
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     output = io.StringIO()
 
@@ -1833,7 +2237,9 @@ def export_report():
 
     return send_file(
         io.BytesIO(
-            output.getvalue().encode("utf-8")
+            output.getvalue().encode(
+                "utf-8"
+            )
         ),
         mimetype="text/csv",
         as_attachment=True,
@@ -1849,100 +2255,17 @@ def export_report():
 @admin_required
 def admin_users():
 
-    users = User.query.order_by(
-        User.created_at.desc()
-    ).all()
+    users = (
+        User.query
+        .order_by(
+            User.created_at.desc()
+        )
+        .all()
+    )
 
     return render_template(
         "admin.html",
         users=users
-    )
-
-
-# ============================================================
-# ADMIN - ACTIVATE USER
-# ============================================================
-
-@app.route("/admin/user/<int:user_id>/activate")
-@admin_required
-def activate_user(user_id):
-
-    user = db.session.get(
-        User,
-        user_id
-    )
-
-    if not user:
-
-        flash(
-            "User not found.",
-            "danger"
-        )
-
-        return redirect(
-            url_for("admin_dashboard")
-        )
-
-    user.status = "Active"
-
-    db.session.commit()
-
-    flash(
-        f"{user.username} has been activated.",
-        "success"
-    )
-
-    return redirect(
-        url_for("admin_dashboard")
-    )
-
-
-# ============================================================
-# ADMIN - DEACTIVATE USER
-# ============================================================
-
-@app.route("/admin/user/<int:user_id>/deactivate")
-@admin_required
-def deactivate_user(user_id):
-
-    user = db.session.get(
-        User,
-        user_id
-    )
-
-    if not user:
-
-        flash(
-            "User not found.",
-            "danger"
-        )
-
-        return redirect(
-            url_for("admin_dashboard")
-        )
-
-    if user.id == current_user.id:
-
-        flash(
-            "You cannot deactivate your own account.",
-            "danger"
-        )
-
-        return redirect(
-            url_for("admin_dashboard")
-        )
-
-    user.status = "Inactive"
-
-    db.session.commit()
-
-    flash(
-        f"{user.username} has been deactivated.",
-        "success"
-    )
-
-    return redirect(
-        url_for("admin_dashboard")
     )
 
 
@@ -1954,9 +2277,13 @@ def deactivate_user(user_id):
 @admin_required
 def admin_transactions():
 
-    transactions = Transaction.query.order_by(
-        Transaction.created_at.desc()
-    ).all()
+    transactions = (
+        Transaction.query
+        .order_by(
+            Transaction.created_at.desc()
+        )
+        .all()
+    )
 
     return render_template(
         "transactions.html",
@@ -1965,7 +2292,7 @@ def admin_transactions():
 
 
 # ============================================================
-# ERROR HANDLERS
+# ERROR HANDLER - 404
 # ============================================================
 
 @app.errorhandler(404)
@@ -1975,6 +2302,10 @@ def page_not_found(error):
         "404.html"
     ), 404
 
+
+# ============================================================
+# ERROR HANDLER - 500
+# ============================================================
 
 @app.errorhandler(500)
 def internal_server_error(error):

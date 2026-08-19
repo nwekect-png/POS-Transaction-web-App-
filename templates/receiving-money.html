@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Receive Money - POS Transaction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 22px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h1 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .balance {
+            background: #eaf3ff;
+            border-left: 5px solid #0d6efd;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+        }
+
+        .balance strong {
+            color: #0d6efd;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #0d6efd;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background: #0d6efd;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #0b5ed7;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .alert-info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .navbar {
+                padding: 12px 15px;
+            }
+
+            .navbar h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <div class="navbar">
+        <h2>POS Transaction</h2>
+
+        <div>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('wallet') }}">Wallet</a>
+            <a href="{{ url_for('transaction_history') }}">Transactions</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+
+            <h1>Receive Money</h1>
+
+            <p class="subtitle">
+                Receive money from a customer
+            </p>
+
+            <!-- Current Wallet Balance -->
+            <div class="balance">
+                Current Wallet Balance:
+                <strong>
+                    ₦{{ "%.2f"|format(current_user.wallet_balance or 0) }}
+                </strong>
+            </div>
+
+            <!-- Receiving Money Form -->
+            <form method="POST" action="{{ url_for('receive_money') }}">
+
+                <div class="form-group">
+                    <label for="sender_name">
+                        Sender Name <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sender_name"
+                        name="sender_name"
+                        placeholder="Enter sender's full name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="account_number">
+                        Sender Account Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="account_number"
+                        name="account_number"
+                        placeholder="Enter account number"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="bank_name">
+                        Bank Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="bank_name"
+                        name="bank_name"
+                        placeholder="Enter bank name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">
+                        Amount <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        placeholder="Enter amount"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction_pin">
+                        Transaction PIN <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        id="transaction_pin"
+                        name="transaction_pin"
+                        placeholder="Enter your transaction PIN"
+                        maxlength="6"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter transaction description (optional)"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="btn">
+                    Receive Money
+                </button>
+
+            </form>
+
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>

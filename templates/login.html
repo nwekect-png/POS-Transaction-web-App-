@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - POS Transaction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 70px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .remember-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #4b5563;
+        }
+
+        .remember input {
+            width: auto;
+            padding: 0;
+        }
+
+        .forgot-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .login-btn:active {
+            transform: scale(0.99);
+        }
+
+        .register-section {
+            text-align: center;
+            margin-top: 25px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .register-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="logo">
+            POS
+        </div>
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+            Sign in to your POS Transaction Account
+        </p>
+
+        <!-- Flask flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- LOGIN FORM -->
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword()"
+                        id="toggleButton">
+                        Show
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="remember-row">
+
+                <label class="remember">
+                    <input
+                        type="checkbox"
+                        name="remember"
+                        value="1"
+                    >
+                    Remember me
+                </label>
+
+                <a
+                    href="{{ url_for('forgot_password') }}"
+                    class="forgot-link">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <div class="register-section">
+
+            Don't have an account?
+
+            <a
+                href="{{ url_for('register') }}"
+                class="register-link">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 POS Transaction System. All Rights Reserved.
+    </div>
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.getElementById("toggleButton");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+            button.textContent = "Hide";
+
+        } else {
+
+            password.type = "password";
+            button.textContent = "Show";
+
+        }
+    }
+
+</script>
+
+</body>
+</html>

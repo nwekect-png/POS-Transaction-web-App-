@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Send Money - POS Transaction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: #0d6efd;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.15);
+            padding: 9px 15px;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 8px;
+            color: #0d6efd;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .alert {
+            padding: 13px 16px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 2px rgba(13,110,253,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .amount-box {
+            background: #f1f8ff;
+            border: 1px solid #cfe2ff;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .amount-box label {
+            color: #0d6efd;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #0d6efd;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #0b5ed7;
+        }
+
+        .cancel-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 13px;
+            margin-top: 10px;
+            border-radius: 7px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+        }
+
+        .cancel-btn:hover {
+            background: #5c636a;
+        }
+
+        .info-box {
+            margin-top: 25px;
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #0d6efd;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .info-box li {
+            margin-bottom: 7px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>POS Transaction</h1>
+
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Send Money</h2>
+
+            <p class="subtitle">
+                Transfer money securely from your wallet.
+            </p>
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+
+                        <div class="alert
+                            {% if category == 'success' %}
+                                alert-success
+                            {% elif category == 'warning' %}
+                                alert-warning
+                            {% else %}
+                                alert-danger
+                            {% endif %}
+                        ">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
+            <!-- SEND MONEY FORM -->
+            <form method="POST" action="{{ url_for('send_money') }}">
+
+                <!-- RECEIVER NAME -->
+                <div class="form-group">
+                    <label for="receiver_name">
+                        Receiver's Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="receiver_name"
+                        name="receiver_name"
+                        placeholder="Enter receiver's full name"
+                        required
+                    >
+                </div>
+
+
+                <!-- ACCOUNT NUMBER -->
+                <div class="form-group">
+                    <label for="account_number">
+                        Account / Phone Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="account_number"
+                        name="account_number"
+                        placeholder="Enter account or phone number"
+                        required
+                    >
+                </div>
+
+
+                <!-- BANK -->
+                <div class="form-group">
+                    <label for="bank_name">
+                        Bank / Service
+                    </label>
+
+                    <select id="bank_name" name="bank_name" required>
+
+                        <option value="">
+                            -- Select Bank / Service --
+                        </option>
+
+                        <option value="Access Bank">
+                            Access Bank
+                        </option>
+
+                        <option value="GTBank">
+                            GTBank
+                        </option>
+
+                        <option value="First Bank">
+                            First Bank
+                        </option>
+
+                        <option value="UBA">
+                            UBA
+                        </option>
+
+                        <option value="Zenith Bank">
+                            Zenith Bank
+                        </option>
+
+                        <option value="Opay">
+                            Opay
+                        </option>
+
+                        <option value="PalmPay">
+                            PalmPay
+                        </option>
+
+                        <option value="Moniepoint">
+                            Moniepoint
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <!-- AMOUNT -->
+                <div class="amount-box">
+
+                    <div class="form-group" style="margin-bottom: 0;">
+
+                        <label for="amount">
+                            Amount (₦)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            placeholder="0.00"
+                            min="1"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter transaction description (optional)"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- TRANSACTION PIN -->
+                <div class="form-group">
+
+                    <label for="transaction_pin">
+                        Transaction PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="transaction_pin"
+                        name="transaction_pin"
+                        placeholder="Enter your transaction PIN"
+                        maxlength="6"
+                        inputmode="numeric"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button type="submit" class="submit-btn">
+                    Send Money
+                </button>
+
+            </form>
+
+
+            <!-- CANCEL -->
+            <a href="{{ url_for('dashboard') }}" class="cancel-btn">
+                Cancel
+            </a>
+
+
+            <!-- INFORMATION -->
+            <div class="info-box">
+
+                <h3>Important Information</h3>
+
+                <ul>
+                    <li>Confirm the receiver's details before sending.</li>
+
+                    <li>Make sure you have sufficient wallet balance.</li>
+
+                    <li>Do not share your transaction PIN with anyone.</li>
+
+                    <li>Check the amount carefully before submitting.</li>
+
+                    <li>A transaction reference will be generated after a successful transaction.</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        &copy; 2026 POS Transaction Web App. All rights reserved.
+    </div>
+
+
+    <!-- SIMPLE AMOUNT VALIDATION -->
+    <script>
+
+        const form = document.querySelector("form");
+        const amountInput = document.getElementById("amount");
+
+        form.addEventListener("submit", function(event) {
+
+            const amount = parseFloat(amountInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+
+                event.preventDefault();
+
+                alert("Please enter a valid amount greater than ₦0.");
+
+                amountInput.focus();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

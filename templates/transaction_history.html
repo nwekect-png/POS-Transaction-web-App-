@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction History - POS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>Transaction History</h1>
+
+            <p>
+                Complete record of your POS transactions
+            </p>
+
+        </div>
+
+        <div class="topbar-actions">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-secondary">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="btn btn-danger">
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="content">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>All Transactions</h2>
+
+                    <p>
+                        Review your transaction activity.
+                    </p>
+
+                </div>
+
+                <a href="{{ url_for('reports') }}"
+                   class="btn btn-primary">
+                    Reports
+                </a>
+
+            </div>
+
+
+            {% if transactions %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Date</th>
+
+                            <th>Reference</th>
+
+                            <th>Transaction Type</th>
+
+                            <th>Sender</th>
+
+                            <th>Receiver</th>
+
+                            <th>Account</th>
+
+                            <th>Amount</th>
+
+                            <th>Status</th>
+
+                            <th>Receipt</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for transaction in transactions %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+
+                                {% if transaction.created_at %}
+
+                                    {{ transaction.created_at.strftime(
+                                        '%d/%m/%Y %H:%M'
+                                    ) }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+                                {{ transaction.transaction_reference }}
+                            </td>
+
+
+                            <td>
+                                {{ transaction.transaction_type }}
+                            </td>
+
+
+                            <td>
+                                {{ transaction.sender_name or '-' }}
+                            </td>
+
+
+                            <td>
+                                {{ transaction.receiver_name or '-' }}
+                            </td>
+
+
+                            <td>
+                                {{ transaction.account_number or '-' }}
+                            </td>
+
+
+                            <td>
+
+                                ₦{{ "{:,.2f}".format(
+                                    transaction.amount or 0
+                                ) }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if transaction.status == 'Success' %}
+
+                                    <span class="status success">
+                                        Success
+                                    </span>
+
+                                {% elif transaction.status == 'Pending' %}
+
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status failed">
+                                        {{ transaction.status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <a href="{{ url_for(
+                                    'receipt',
+                                    transaction_reference=transaction.transaction_reference
+                                ) }}"
+                                   class="btn btn-small">
+
+                                    View
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <h3>No Transactions Found</h3>
+
+                <p>
+                    You have not completed any transactions yet.
+                </p>
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="btn btn-primary">
+
+                    Return to Dashboard
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
