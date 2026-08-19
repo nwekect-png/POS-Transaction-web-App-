@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Wallet - POS Transaction</title>
 
@@ -21,16 +19,13 @@
             color: #333;
         }
 
-        /* HEADER */
         .header {
             background: #0d6efd;
             color: white;
             padding: 18px 30px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
@@ -50,7 +45,6 @@
             background: rgba(255,255,255,0.25);
         }
 
-        /* MAIN */
         .container {
             width: 92%;
             max-width: 1100px;
@@ -71,23 +65,13 @@
             color: #666;
         }
 
-        /* WALLET CARD */
         .wallet-card {
-            background: linear-gradient(
-                135deg,
-                #0d6efd,
-                #084298
-            );
-
+            background: linear-gradient(135deg, #0d6efd, #084298);
             color: white;
             border-radius: 18px;
-
             padding: 35px;
-
             margin-bottom: 30px;
-
-            box-shadow:
-                0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .wallet-top {
@@ -122,7 +106,6 @@
             opacity: 0.9;
         }
 
-        /* ACTIONS */
         .actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -133,24 +116,17 @@
         .action {
             background: white;
             padding: 22px 15px;
-
             text-align: center;
-
             border-radius: 10px;
-
             text-decoration: none;
             color: #333;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.08);
-
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
             transition: 0.2s;
         }
 
         .action:hover {
             transform: translateY(-3px);
-            box-shadow:
-                0 6px 18px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
         .action-icon {
@@ -168,7 +144,6 @@
             color: #777;
         }
 
-        /* DIFFERENT ACTION COLORS */
         .deposit-icon {
             color: #198754;
         }
@@ -185,18 +160,12 @@
             color: #fd7e14;
         }
 
-        /* WALLET INFORMATION */
         .card {
             background: white;
-
             border-radius: 12px;
-
             padding: 25px;
-
             margin-bottom: 25px;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
         .card h3 {
@@ -207,9 +176,7 @@
         .information-row {
             display: flex;
             justify-content: space-between;
-
             padding: 14px 0;
-
             border-bottom: 1px solid #eee;
         }
 
@@ -226,34 +193,22 @@
             text-align: right;
         }
 
-        /* STATUS */
         .status {
             color: #198754;
             background: #d1e7dd;
-
             padding: 5px 10px;
-
             border-radius: 20px;
-
             font-size: 13px;
         }
 
-        /* TRANSACTION BUTTON */
         .history-button {
             display: block;
-
             background: #212529;
-
             color: white;
-
             text-align: center;
-
             text-decoration: none;
-
             padding: 15px;
-
             border-radius: 8px;
-
             font-weight: bold;
         }
 
@@ -261,16 +216,11 @@
             background: #343a40;
         }
 
-        /* SECURITY */
         .security {
             background: #e7f1ff;
-
             border-left: 5px solid #0d6efd;
-
             padding: 18px;
-
             border-radius: 8px;
-
             margin-top: 25px;
         }
 
@@ -284,19 +234,14 @@
             line-height: 1.6;
         }
 
-        /* FOOTER */
         footer {
             text-align: center;
             color: #777;
-
             padding: 25px;
-
             margin-top: 30px;
         }
 
-        /* TABLET */
         @media (max-width: 800px) {
-
             .actions {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -306,9 +251,7 @@
             }
         }
 
-        /* MOBILE */
         @media (max-width: 500px) {
-
             .header {
                 padding: 15px;
             }
@@ -324,10 +267,6 @@
 
             .wallet-card {
                 padding: 25px;
-            }
-
-            .wallet-top {
-                margin-bottom: 25px;
             }
 
             .balance {
@@ -352,274 +291,279 @@
 
 <body>
 
-    <!-- HEADER -->
-    <header class="header">
+<header class="header">
 
-        <h1>💳 POS Transaction</h1>
+    <h1>💳 POS Transaction</h1>
 
-        <a href="{{ url_for('dashboard') }}">
-            Dashboard
+    <a href="{{ url_for('dashboard') }}">
+        Dashboard
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h2>My Wallet</h2>
+
+        <p>
+            Manage your wallet, send money,
+            receive money and view your balance.
+        </p>
+
+    </section>
+
+
+    <!-- WALLET -->
+
+    <section class="wallet-card">
+
+        <div class="wallet-top">
+
+            <div class="wallet-title">
+                My Digital Wallet
+            </div>
+
+            <div class="wallet-icon">
+                💳
+            </div>
+
+        </div>
+
+        <div class="balance-label">
+            Available Wallet Balance
+        </div>
+
+        <div class="balance">
+            ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+        </div>
+
+        <div class="wallet-user">
+
+            Wallet Owner:
+
+            <strong>
+                {{ current_user.full_name or current_user.username }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="actions">
+
+        <a href="{{ url_for('deposit') }}" class="action">
+
+            <div class="action-icon deposit-icon">
+                💰
+            </div>
+
+            <h3>Deposit</h3>
+
+            <p>
+                Add money to your wallet
+            </p>
+
         </a>
 
-    </header>
 
+        <a href="{{ url_for('withdrawal') }}" class="action">
 
-    <!-- MAIN CONTENT -->
-    <main class="container">
+            <div class="action-icon withdraw-icon">
+                💸
+            </div>
 
-        <!-- WELCOME -->
-        <section class="welcome">
-
-            <h2>My Wallet</h2>
+            <h3>Withdraw</h3>
 
             <p>
-                Manage your wallet, send money,
-                receive money and view your balance.
+                Withdraw money from wallet
             </p>
 
-        </section>
+        </a>
 
 
-        <!-- WALLET BALANCE -->
-        <section class="wallet-card">
+        <a href="{{ url_for('send_money') }}" class="action">
 
-            <div class="wallet-top">
-
-                <div class="wallet-title">
-                    My Digital Wallet
-                </div>
-
-                <div class="wallet-icon">
-                    💳
-                </div>
-
+            <div class="action-icon send-icon">
+                📤
             </div>
 
-            <div class="balance-label">
-                Available Wallet Balance
+            <h3>Send Money</h3>
+
+            <p>
+                Send money securely
+            </p>
+
+        </a>
+
+
+        <a href="{{ url_for('receive_money') }}" class="action">
+
+            <div class="action-icon receive-icon">
+                📥
             </div>
 
-            <div class="balance">
+            <h3>Receive Money</h3>
+
+            <p>
+                Receive money into wallet
+            </p>
+
+        </a>
+
+    </section>
+
+
+    <!-- ACCOUNT INFORMATION -->
+
+    <section class="card">
+
+        <h3>Wallet Information</h3>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Account Name
+            </span>
+
+            <span class="value">
+                {{ current_user.full_name or "Not provided" }}
+            </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Username
+            </span>
+
+            <span class="value">
+                {{ current_user.username or "Not provided" }}
+            </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Phone Number
+            </span>
+
+            <span class="value">
+                {{ current_user.phone or "Not provided" }}
+            </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Account Type
+            </span>
+
+            <span class="value">
+                {{ current_user.role or "Agent" }}
+            </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Account Status
+            </span>
+
+            <span class="value">
+
+                <span class="status">
+                    {{ current_user.status or "Active" }}
+                </span>
+
+            </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+            <span class="label">
+                Available Balance
+            </span>
+
+            <span class="value">
                 ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
-            </div>
+            </span>
 
-            <div class="wallet-user">
-                Wallet Owner:
-                <strong>{{ current_user.full_name }}</strong>
-            </div>
+        </div>
 
-        </section>
+    </section>
 
 
-        <!-- QUICK ACTIONS -->
-        <section class="actions">
+    <!-- TRANSACTION HISTORY -->
 
-            <!-- DEPOSIT -->
-            <a href="{{ url_for('deposit') }}"
-               class="action">
+    <section class="card">
 
-                <div class="action-icon deposit-icon">
-                    💰
-                </div>
+        <h3>Transactions</h3>
 
-                <h3>Deposit</h3>
+        <p style="color:#777; margin-bottom:15px;">
 
-                <p>
-                    Add money to your wallet
-                </p>
+            View your previous deposits, withdrawals,
+            money transfers and received payments.
 
-            </a>
-
-
-            <!-- WITHDRAW -->
-            <a href="{{ url_for('withdrawal') }}"
-               class="action">
-
-                <div class="action-icon withdraw-icon">
-                    💸
-                </div>
-
-                <h3>Withdraw</h3>
-
-                <p>
-                    Withdraw money from wallet
-                </p>
-
-            </a>
-
-
-            <!-- SEND -->
-            <a href="{{ url_for('send_money') }}"
-               class="action">
-
-                <div class="action-icon send-icon">
-                    📤
-                </div>
-
-                <h3>Send Money</h3>
-
-                <p>
-                    Send money securely
-                </p>
-
-            </a>
-
-
-            <!-- RECEIVE -->
-            <a href="{{ url_for('receive_money') }}"
-               class="action">
-
-                <div class="action-icon receive-icon">
-                    📥
-                </div>
-
-                <h3>Receive Money</h3>
-
-                <p>
-                    Receive money into wallet
-                </p>
-
-            </a>
-
-        </section>
-
-
-        <!-- ACCOUNT INFORMATION -->
-        <section class="card">
-
-            <h3>Wallet Information</h3>
-
-            <div class="information-row">
-
-                <span class="label">
-                    Account Name
-                </span>
-
-                <span class="value">
-                    {{ current_user.full_name }}
-                </span>
-
-            </div>
-
-
-            <div class="information-row">
-
-                <span class="label">
-                    Username
-                </span>
-
-                <span class="value">
-                    {{ current_user.username }}
-                </span>
-
-            </div>
-
-
-            <div class="information-row">
-
-                <span class="label">
-                    Phone Number
-                </span>
-
-                <span class="value">
-                    {{ current_user.phone }}
-                </span>
-
-            </div>
-
-
-            <div class="information-row">
-
-                <span class="label">
-                    Account Type
-                </span>
-
-                <span class="value">
-                    {{ current_user.role }}
-                </span>
-
-            </div>
-
-
-            <div class="information-row">
-
-                <span class="label">
-                    Account Status
-                </span>
-
-                <span class="value">
-                    <span class="status">
-                        {{ current_user.status }}
-                    </span>
-                </span>
-
-            </div>
-
-
-            <div class="information-row">
-
-                <span class="label">
-                    Available Balance
-                </span>
-
-                <span class="value">
-                    ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- TRANSACTION HISTORY -->
-        <section class="card">
-
-            <h3>Transactions</h3>
-
-            <p style="color:#777; margin-bottom:15px;">
-                View your previous deposits, withdrawals,
-                money transfers and received payments.
-            </p>
-
-            <a href="{{ url_for('transaction_history') }}"
-               class="history-button">
-
-                📋 View Transaction History
-
-            </a>
-
-        </section>
-
-
-        <!-- SECURITY -->
-        <section class="security">
-
-            <h3>🔒 Wallet Security</h3>
-
-            <p>
-                Keep your password and transaction PIN private.
-                Never share your login credentials or transaction
-                PIN with anyone. Always confirm the recipient
-                details before sending money.
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer>
-
-        <p>
-            © 2026 POS Transaction Web App
         </p>
 
+        <a href="{{ url_for('transaction_history') }}"
+           class="history-button">
+
+            📋 View Transaction History
+
+        </a>
+
+    </section>
+
+
+    <!-- SECURITY -->
+
+    <section class="security">
+
+        <h3>🔒 Wallet Security</h3>
+
         <p>
-            Secure wallet management
+
+            Keep your password and transaction PIN private.
+            Never share your login credentials or transaction
+            PIN with anyone. Always confirm the recipient
+            details before sending money.
+
         </p>
 
-    </footer>
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 POS Transaction Web App
+    </p>
+
+    <p>
+        Secure wallet management
+    </p>
+
+</footer>
 
 </body>
 </html>
