@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - POS Transaction</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #0d6efd;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 6px;
+
+            background: rgba(255,255,255,0.15);
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 94%;
+            max-width: 1300px;
+
+            margin: 35px auto;
+        }
+
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            color: #222;
+
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .flash {
+            padding: 13px;
+
+            border-radius: 7px;
+
+            margin-bottom: 15px;
+
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .info {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+
+        /* =========================
+           REPORT FILTER
+        ========================= */
+
+        .filter-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.07);
+
+            margin-bottom: 25px;
+        }
+
+        .filter-card h3 {
+            margin-bottom: 20px;
+
+            color: #222;
+        }
+
+        .filter-form {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 3px rgba(13,110,253,0.10);
+        }
+
+        .filter-button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #0d6efd;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .filter-button:hover {
+            background: #0b5ed7;
+        }
+
+
+        /* =========================
+           EXPORT BUTTONS
+        ========================= */
+
+        .export-buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 18px;
+
+            flex-wrap: wrap;
+        }
+
+        .export-button {
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .csv {
+            background: #198754;
+        }
+
+        .csv:hover {
+            background: #157347;
+        }
+
+        .print {
+            background: #6c757d;
+        }
+
+        .print:hover {
+            background: #5c636a;
+        }
+
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.07);
+
+            border-left: 5px solid #0d6efd;
+        }
+
+        .summary-card.green {
+            border-left-color: #198754;
+        }
+
+        .summary-card.orange {
+            border-left-color: #fd7e14;
+        }
+
+        .summary-card.red {
+            border-left-color: #dc3545;
+        }
+
+        .summary-card h3 {
+            color: #777;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 10px;
+        }
+
+        .summary-number {
+            font-size: 26px;
+
+            font-weight: bold;
+
+            color: #222;
+        }
+
+        .summary-card p {
+            margin-top: 7px;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           REPORT CARD
+        ========================= */
+
+        .report-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.07);
+
+            margin-bottom: 25px;
+        }
+
+        .report-card h2 {
+            color: #222;
+
+            margin-bottom: 20px;
+
+            font-size: 19px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8f9fa;
+
+            color: #555;
+
+            padding: 13px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px;
+
+            border-bottom: 1px solid #eee;
+
+            white-space: nowrap;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+
+        /* =========================
+           BADGES
+        ========================= */
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .badge-success {
+            background: #d1e7dd;
+
+            color: #0f5132;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+
+            color: #842029;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+
+            color: #664d03;
+        }
+
+
+        /* =========================
+           NO DATA
+        ========================= */
+
+        .no-data {
+            text-align: center;
+
+            padding: 40px;
+
+            color: #777;
+        }
+
+        .no-data-icon {
+            font-size: 40px;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+
+            .header-links,
+            .filter-card,
+            .export-buttons {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .report-card,
+            .summary-card {
+                box-shadow: none;
+
+                border: 1px solid #ddd;
+            }
+
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .filter-form {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .summary {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .header-links a {
+                padding: 8px 10px;
+
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 25px auto;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-card,
+            .report-card {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <h1>
+        💳 POS Transaction
+    </h1>
+
+    <div class="header-links">
+
+        <a href="{{ url_for('admin_dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('settings') }}">
+            Settings
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h2>
+            📊 Transaction Reports
+        </h2>
+
+        <p>
+            View, filter and analyze POS transaction activity.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         FLASH MESSAGES
+    ========================= -->
+
+    {% with messages =
+        get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="flash {{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- =========================
+         FILTER
+    ========================= -->
+
+    <section class="filter-card">
+
+        <h3>
+            🔎 Generate Report
+        </h3>
+
+
+        <form
+            method="GET"
+            action="{{ url_for('reports') }}"
+            class="filter-form">
+
+
+            <!-- START DATE -->
+
+            <div class="form-group">
+
+                <label for="start_date">
+                    Start Date
+                </label>
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    value="{{ request.args.get('start_date', '') }}"
+                >
+
+            </div>
+
+
+            <!-- END DATE -->
+
+            <div class="form-group">
+
+                <label for="end_date">
+                    End Date
+                </label>
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    value="{{ request.args.get('end_date', '') }}"
+                >
+
+            </div>
+
+
+            <!-- TRANSACTION TYPE -->
+
+            <div class="form-group">
+
+                <label for="transaction_type">
+                    Transaction Type
+                </label>
+
+                <select
+                    id="transaction_type"
+                    name="transaction_type">
+
+                    <option value="">
+                        All Transactions
+                    </option>
+
+                    <option value="Deposit"
+                        {% if request.args.get('transaction_type') == 'Deposit' %}
+                            selected
+                        {% endif %}>
+                        Deposit
+                    </option>
+
+                    <option value="Withdrawal"
+                        {% if request.args.get('transaction_type') == 'Withdrawal' %}
+                            selected
+                        {% endif %}>
+                        Withdrawal
+                    </option>
+
+                    <option value="Send Money"
+                        {% if request.args.get('transaction_type') == 'Send Money' %}
+                            selected
+                        {% endif %}>
+                        Send Money
+                    </option>
+
+                    <option value="Receive Money"
+                        {% if request.args.get('transaction_type') == 'Receive Money' %}
+                            selected
+                        {% endif %}>
+                        Receive Money
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select
+                    id="status"
+                    name="status">
+
+                    <option value="">
+                        All Statuses
+                    </option>
+
+                    <option value="Success"
+                        {% if request.args.get('status') == 'Success' %}
+                            selected
+                        {% endif %}>
+                        Success
+                    </option>
+
+                    <option value="Failed"
+                        {% if request.args.get('status') == 'Failed' %}
+                            selected
+                        {% endif %}>
+                        Failed
+                    </option>
+
+                    <option value="Pending"
+                        {% if request.args.get('status') == 'Pending' %}
+                            selected
+                        {% endif %}>
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="form-group">
+
+                <button
+                    type="submit"
+                    class="filter-button">
+
+                    🔍 Generate Report
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <!-- EXPORT -->
+
+        <div class="export-buttons">
+
+            <a
+                href="{{ url_for('export_report') }}"
+                class="export-button csv">
+
+                📥 Export Report
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="window.print(); return false;"
+                class="export-button print">
+
+                🖨️ Print Report
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUMMARY
+    ========================= -->
+
+    <section class="summary">
+
+
+        <!-- TOTAL TRANSACTIONS -->
+
+        <div class="summary-card">
+
+            <h3>
+                Total Transactions
+            </h3>
+
+            <div class="summary-number">
+
+                {{ total_transactions|default(0) }}
+
+            </div>
+
+            <p>
+                Transactions in selected period
+            </p>
+
+        </div>
+
+
+        <!-- TOTAL AMOUNT -->
+
+        <div class="summary-card green">
+
+            <h3>
+                Total Amount
+            </h3>
+
+            <div class="summary-number">
+
+                ₦{{ "{:,.2f}".format(
+                    total_amount|default(0)
+                ) }}
+
+            </div>
+
+            <p>
+                Total transaction value
+            </p>
+
+        </div>
+
+
+        <!-- SUCCESSFUL -->
+
+        <div class="summary-card orange">
+
+            <h3>
+                Successful
+            </h3>
+
+            <div class="summary-number">
+
+                {{ successful_transactions|default(0) }}
+
+            </div>
+
+            <p>
+                Successfully completed
+            </p>
+
+        </div>
+
+
+        <!-- FAILED -->
+
+        <div class="summary-card red">
+
+            <h3>
+                Failed
+            </h3>
+
+            <div class="summary-number">
+
+                {{ failed_transactions|default(0) }}
+
+            </div>
+
+            <p>
+                Failed transactions
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSACTION REPORT
+    ========================= -->
+
+    <section class="report-card">
+
+        <h2>
+            📋 Transaction Details
+        </h2>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Reference
+                        </th>
+
+                        <th>
+                            Sender
+                        </th>
+
+                        <th>
+                            Receiver
+                        </th>
+
+                        <th>
+                            Transaction Type
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% if transactions %}
+
+                        {% for transaction in transactions %}
+
+                            <tr>
+
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+
+                                <td>
+                                    {{ transaction.transaction_reference }}
+                                </td>
+
+                                <td>
+                                    {{ transaction.sender_name or '-' }}
+                                </td>
+
+                                <td>
+                                    {{ transaction.receiver_name or '-' }}
+                                </td>
+
+                                <td>
+                                    {{ transaction.transaction_type }}
+                                </td>
+
+                                <td>
+
+                                    ₦{{ "{:,.2f}".format(
+                                        transaction.amount or 0
+                                    ) }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if transaction.status == "Success" %}
+
+                                        <span class="badge badge-success">
+                                            Success
+                                        </span>
+
+                                    {% elif transaction.status == "Failed" %}
+
+                                        <span class="badge badge-danger">
+                                            Failed
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge badge-warning">
+                                            {{ transaction.status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if transaction.created_at %}
+
+                                        {{ transaction.created_at.strftime(
+                                            "%d/%m/%Y %H:%M"
+                                        ) }}
+
+                                    {% else %}
+
+                                        -
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="8">
+
+                                <div class="no-data">
+
+                                    <div class="no-data-icon">
+                                        📭
+                                    </div>
+
+                                    <strong>
+                                        No transactions found
+                                    </strong>
+
+                                    <p style="margin-top:7px;">
+                                        Try changing your report filters.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 POS Transaction Web App
+    </p>
+
+    <p>
+        🔒 Secure Financial Reporting
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

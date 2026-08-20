@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance - POS Transaction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .balance {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Wallet Balance</h1>
+
+    <div class="balance">
+        ₦{{ "%.2f"|format(balance|float) }}
+    </div>
+
+    <p>Available wallet balance</p>
+
+    <a href="{{ url_for('dashboard') }}" class="back">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

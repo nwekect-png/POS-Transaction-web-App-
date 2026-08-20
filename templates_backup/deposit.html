@@ -1,12 +1,104 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Receive Money - POS Transaction</title>
+    <title>Deposit Money - POS Transaction</title>
 
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +121,7 @@
             justify-content: space-between;
             align-items: center;
 
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .header h1 {
@@ -39,19 +131,19 @@
         .header a {
             color: white;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,0.15);
             padding: 10px 16px;
             border-radius: 6px;
         }
 
         .header a:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255,255,255,0.25);
         }
 
-        /* MAIN CONTAINER */
+        /* CONTAINER */
         .container {
             width: 92%;
-            max-width: 650px;
+            max-width: 600px;
             margin: 40px auto;
         }
 
@@ -62,16 +154,16 @@
 
             border-radius: 15px;
 
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.10);
         }
 
-        /* CARD HEADER */
         .card-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .receive-icon {
+        .deposit-icon {
             font-size: 55px;
             margin-bottom: 10px;
         }
@@ -86,10 +178,9 @@
             line-height: 1.5;
         }
 
-        /* WALLET BALANCE */
+        /* BALANCE */
         .balance-box {
             background: #e7f1ff;
-
             border-left: 5px solid #0d6efd;
 
             padding: 18px;
@@ -110,34 +201,6 @@
             font-size: 25px;
         }
 
-        /* RECEIVE ACCOUNT BOX */
-        .account-box {
-            background: #d1e7dd;
-
-            border-left: 5px solid #198754;
-
-            padding: 20px;
-
-            border-radius: 8px;
-
-            margin-bottom: 25px;
-        }
-
-        .account-box h3 {
-            color: #0f5132;
-            margin-bottom: 10px;
-        }
-
-        .account-box p {
-            color: #0f5132;
-            margin-bottom: 7px;
-        }
-
-        .account-value {
-            font-weight: bold;
-            font-size: 17px;
-        }
-
         /* FORM */
         .form-group {
             margin-bottom: 20px;
@@ -154,7 +217,8 @@
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
 
             padding: 13px;
@@ -169,10 +233,12 @@
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             border-color: #0d6efd;
 
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
+            box-shadow:
+                0 0 0 3px rgba(13,110,253,0.10);
         }
 
         .form-group textarea {
@@ -180,16 +246,8 @@
             min-height: 90px;
         }
 
-        /* HELP TEXT */
-        .help-text {
-            display: block;
-            margin-top: 6px;
-            font-size: 13px;
-            color: #777;
-        }
-
-        /* REQUEST BUTTON */
-        .receive-button {
+        /* BUTTON */
+        .deposit-button {
             width: 100%;
 
             border: none;
@@ -211,7 +269,7 @@
             transition: 0.2s;
         }
 
-        .receive-button:hover {
+        .deposit-button:hover {
             background: #157347;
         }
 
@@ -295,9 +353,7 @@
 
         .security p {
             color: #666;
-
             font-size: 14px;
-
             line-height: 1.5;
         }
 
@@ -332,7 +388,7 @@
                 padding: 25px 20px;
             }
 
-            .receive-icon {
+            .deposit-icon {
                 font-size: 45px;
             }
         }
@@ -341,10 +397,94 @@
 
 <body>
 
+<div class="container">
+
+    <div class="card">
+
+        <h1>ðŸ’° Deposit Money</h1>
+
+        <p class="subtitle">
+            Add money to your POS wallet
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {% if category == 'success' %}success{% endif %}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('deposit') }}">
+
+            <label for="amount">
+                Deposit Amount (â‚¦)
+            </label>
+
+            <input
+                type="number"
+                id="amount"
+                name="amount"
+                placeholder="Enter amount"
+                min="1"
+                step="0.01"
+                required
+            >
+
+            <label for="transaction_pin">
+                Transaction PIN
+            </label>
+
+            <input
+                type="password"
+                id="transaction_pin"
+                name="transaction_pin"
+                placeholder="Enter transaction PIN"
+                maxlength="6"
+                autocomplete="off"
+            >
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                name="description"
+                placeholder="Enter deposit description (optional)"
+            ></textarea>
+
+            <button type="submit">
+                Deposit Money
+            </button>
+
+        </form>
+
+        <div class="back">
+            <a href="{{ url_for('dashboard') }}">
+                â† Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
     <!-- HEADER -->
     <header class="header">
 
-        <h1>💳 POS Transaction</h1>
+        <h1>ðŸ’³ POS Transaction</h1>
 
         <a href="{{ url_for('dashboard') }}">
             Dashboard
@@ -358,17 +498,17 @@
 
         <div class="card">
 
-            <!-- CARD HEADER -->
+            <!-- HEADER -->
             <div class="card-header">
 
-                <div class="receive-icon">
-                    📥
+                <div class="deposit-icon">
+                    ðŸ’°
                 </div>
 
-                <h2>Receive Money</h2>
+                <h2>Deposit Money</h2>
 
                 <p>
-                    Receive money securely into your wallet.
+                    Add money securely to your wallet.
                 </p>
 
             </div>
@@ -404,79 +544,21 @@
                 </p>
 
                 <strong>
-                    ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
+                    â‚¦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
                 </strong>
 
             </div>
 
 
-            <!-- ACCOUNT DETAILS -->
-            <div class="account-box">
-
-                <h3>
-                    📱 Your Receiving Details
-                </h3>
-
-                <p>
-                    Give these details to the person sending you money.
-                </p>
-
-                <p>
-                    <strong>Username:</strong>
-                    <span class="account-value">
-                        {{ current_user.username }}
-                    </span>
-                </p>
-
-                <p>
-                    <strong>Phone:</strong>
-                    <span class="account-value">
-                        {{ current_user.phone }}
-                    </span>
-                </p>
-
-                <p>
-                    <strong>Name:</strong>
-                    <span class="account-value">
-                        {{ current_user.full_name }}
-                    </span>
-                </p>
-
-            </div>
-
-
-            <!-- RECEIVE FORM -->
+            <!-- DEPOSIT FORM -->
             <form method="POST"
-                  action="{{ url_for('receive_money') }}">
-
-                <!-- SENDER -->
-                <div class="form-group">
-
-                    <label for="sender">
-                        Sender Username / Phone
-                    </label>
-
-                    <input
-                        type="text"
-                        id="sender"
-                        name="sender"
-                        placeholder="Enter sender username or phone"
-                        required
-                    >
-
-                    <span class="help-text">
-                        Enter the registered username or phone number
-                        of the person sending the money.
-                    </span>
-
-                </div>
-
+                  action="{{ url_for('deposit') }}">
 
                 <!-- AMOUNT -->
                 <div class="form-group">
 
                     <label for="amount">
-                        Amount (₦)
+                        Deposit Amount (â‚¦)
                     </label>
 
                     <input
@@ -485,25 +567,9 @@
                         name="amount"
                         min="1"
                         step="0.01"
-                        placeholder="Enter amount to receive"
+                        placeholder="Enter amount"
                         required
                     >
-
-                </div>
-
-
-                <!-- DESCRIPTION -->
-                <div class="form-group">
-
-                    <label for="description">
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Enter payment description (optional)"
-                    ></textarea>
 
                 </div>
 
@@ -522,23 +588,35 @@
                         minlength="4"
                         maxlength="6"
                         inputmode="numeric"
-                        placeholder="Enter your transaction PIN"
+                        placeholder="Enter transaction PIN"
                         required
                     >
-
-                    <span class="help-text">
-                        Your PIN is required to authorize this transaction.
-                    </span>
 
                 </div>
 
 
-                <!-- RECEIVE BUTTON -->
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter deposit description (optional)"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- SUBMIT -->
                 <button
                     type="submit"
-                    class="receive-button">
+                    class="deposit-button">
 
-                    📥 Receive Money
+                    ðŸ’° Deposit Money
 
                 </button>
 
@@ -554,15 +632,15 @@
             </a>
 
 
-            <!-- SECURITY NOTICE -->
+            <!-- SECURITY -->
             <div class="security">
 
-                <h3>🔒 Security Notice</h3>
+                <h3>ðŸ”’ Security Notice</h3>
 
                 <p>
-                    Confirm the sender's details and amount before
-                    accepting a transaction. Never share your
-                    transaction PIN with anyone.
+                    Never share your transaction PIN with another
+                    person. Make sure the amount is correct before
+                    confirming your deposit.
                 </p>
 
             </div>
@@ -576,62 +654,56 @@
     <footer>
 
         <p>
-            © 2026 POS Transaction Web App
+            Â© 2026 POS Transaction Web App
         </p>
 
         <p>
-            Secure Money Transfer
+            Secure Wallet Management
         </p>
 
     </footer>
 
 </body>
 </html>
-Matching Flask route
+Make sure app.py has the matching route
 
-If your app.py does not already have a receive_money() route, you can use this basic structure:
+Your Flask route should look approximately like this:
 
-@app.route("/receive-money", methods=["GET", "POST"])
+@app.route("/deposit", methods=["GET", "POST"])
 @login_required
-def receive_money():
+def deposit():
 
     if request.method == "POST":
 
-        sender = request.form.get("sender", "").strip()
         amount = float(request.form.get("amount", 0))
         transaction_pin = request.form.get("transaction_pin", "")
-        description = request.form.get("description", "").strip()
-
-        if not sender:
-            flash("Please enter the sender.", "danger")
-            return redirect(url_for("receive_money"))
+        description = request.form.get("description", "")
 
         if amount <= 0:
-            flash("Please enter a valid amount.", "danger")
-            return redirect(url_for("receive_money"))
+            flash("Please enter a valid deposit amount.", "danger")
+            return redirect(url_for("deposit"))
 
-        # Verify the sender exists.
-        # Verify the transaction PIN securely.
-        # Validate and authorize the transaction on the server.
+        # Your PIN verification should be done here.
+        # Do not store transaction PINs as plain text.
 
         current_user.wallet_balance += amount
 
         db.session.commit()
 
         flash(
-            f"₦{amount:,.2f} received successfully.",
+            f"Deposit of â‚¦{amount:,.2f} successful.",
             "success"
         )
 
         return redirect(url_for("balance"))
 
-    return render_template("receive-money.html")
+    return render_template("deposit.html")
 
-The form sends these fields to Flask:
+Important: If your existing app.py already has a deposit() route, don't add a second one. Keep the existing route and make sure its form field names match:
 
-sender
 amount
-description
 transaction_pin
+description
 
-Important: If your existing app.py already contains receive_money(), don't add a second route. Update the existing route to match these form field names instead.
+Also, for a real-money application, don't rely on a client-side form to enforce balances, PIN rules, or transaction authorization; those checks must happen server-side.
+

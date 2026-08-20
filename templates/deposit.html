@@ -1,9 +1,5 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-
-=======
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,707 +7,359 @@
     <title>Deposit Money - POS Transaction</title>
 
     <style>
-<<<<<<< HEAD
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 500px;
-            margin: 50px auto;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
             padding: 20px;
+        }
+
+        .header {
+            background: #123c69;
+            color: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .header a {
+            display: inline-block;
+            margin-top: 15px;
+            background: white;
+            color: #123c69;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-weight: bold;
         }
 
         .card {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 28px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        h1 {
-            text-align: center;
-            color: #1e293b;
+        .card h2 {
+            color: #123c69;
+            margin-bottom: 8px;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #64748b;
+        .card p {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .balance {
+            background: #eef5fb;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 25px;
+        }
+
+        .balance-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .balance-amount {
+            color: #123c69;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             margin-bottom: 7px;
+            color: #374151;
             font-weight: bold;
-            color: #334155;
         }
 
         input,
         textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            border: 1px solid #cbd5e1;
+            padding: 13px;
+            border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .back {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back a {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .message {
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-=======
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f4f6f9;
-            color: #333;
-        }
-
-        /* HEADER */
-        .header {
-            background: #0d6efd;
-            color: white;
-            padding: 18px 30px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .header h1 {
-            font-size: 24px;
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,0.15);
-            padding: 10px 16px;
-            border-radius: 6px;
-        }
-
-        .header a:hover {
-            background: rgba(255,255,255,0.25);
-        }
-
-        /* CONTAINER */
-        .container {
-            width: 92%;
-            max-width: 600px;
-            margin: 40px auto;
-        }
-
-        /* CARD */
-        .card {
-            background: white;
-            padding: 35px;
-
-            border-radius: 15px;
-
-            box-shadow:
-                0 5px 20px rgba(0,0,0,0.10);
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .deposit-icon {
-            font-size: 55px;
-            margin-bottom: 10px;
-        }
-
-        .card-header h2 {
-            color: #222;
-            margin-bottom: 8px;
-        }
-
-        .card-header p {
-            color: #777;
-            line-height: 1.5;
-        }
-
-        /* BALANCE */
-        .balance-box {
-            background: #e7f1ff;
-            border-left: 5px solid #0d6efd;
-
-            padding: 18px;
-
-            border-radius: 8px;
-
-            margin-bottom: 25px;
-        }
-
-        .balance-box p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .balance-box strong {
-            color: #084298;
-            font-size: 25px;
-        }
-
-        /* FORM */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            font-weight: bold;
-
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-
-            padding: 13px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 7px;
-
-            font-size: 16px;
-
             outline: none;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: #0d6efd;
-
-            box-shadow:
-                0 0 0 3px rgba(13,110,253,0.10);
+        input:focus,
+        textarea:focus {
+            border-color: #123c69;
         }
 
-        .form-group textarea {
+        textarea {
+            min-height: 100px;
             resize: vertical;
-            min-height: 90px;
         }
 
-        /* BUTTON */
-        .deposit-button {
+        .btn {
             width: 100%;
-
+            padding: 14px;
+            background: #123c69;
+            color: white;
             border: none;
-
-            background: #198754;
-
-            color: white;
-
-            padding: 15px;
-
             border-radius: 8px;
-
-            font-size: 17px;
-
+            font-size: 16px;
             font-weight: bold;
-
             cursor: pointer;
-
-            transition: 0.2s;
         }
 
-        .deposit-button:hover {
-            background: #157347;
+        .btn:hover {
+            background: #0b2d4f;
         }
 
-        /* CANCEL */
-        .cancel-button {
+        .cancel {
             display: block;
-
+            width: 100%;
             text-align: center;
-
+            margin-top: 10px;
+            padding: 12px;
+            background: #e5e7eb;
+            color: #374151;
             text-decoration: none;
-
-            margin-top: 15px;
-
-            padding: 13px;
-
             border-radius: 8px;
-
-            background: #6c757d;
-
-            color: white;
-
-            font-weight: bold;
         }
 
-        .cancel-button:hover {
-            background: #5c636a;
-        }
-
-        /* FLASH MESSAGES */
-        .flash-container {
-            margin-bottom: 20px;
+        .notice {
+            background: #fff7ed;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            color: #78350f;
+            line-height: 1.5;
         }
 
         .flash {
             padding: 13px;
-
-            border-radius: 7px;
-
-            margin-bottom: 10px;
-
-            font-size: 14px;
-        }
-
-        .success {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .danger {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        .warning {
-            background: #fff3cd;
-            color: #664d03;
-        }
-
-        .info {
-            background: #cff4fc;
-            color: #055160;
-        }
-
-        /* SECURITY */
-        .security {
-            margin-top: 25px;
-
-            padding: 18px;
-
-            background: #f8f9fa;
-
+            margin-bottom: 15px;
             border-radius: 8px;
-
-            border: 1px solid #ddd;
         }
 
-        .security h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
+        .flash.success {
+            background: #dcfce7;
+            color: #166534;
         }
 
-        .security p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
+        .flash.danger {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-        /* FOOTER */
+        .flash.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .flash.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
         footer {
             text-align: center;
-
-            color: #777;
-
-            padding: 25px;
-
-            margin-top: 20px;
+            color: #6b7280;
+            font-size: 13px;
+            padding: 20px;
         }
 
-        /* MOBILE */
         @media (max-width: 600px) {
-
-            .header {
-                padding: 15px;
-            }
-
-            .header h1 {
-                font-size: 19px;
-            }
-
             .container {
-                width: 94%;
-                margin-top: 25px;
+                padding: 12px;
             }
 
             .card {
-                padding: 25px 20px;
+                padding: 20px;
             }
-
-            .deposit-icon {
-                font-size: 45px;
-            }
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
         }
     </style>
 </head>
 
 <body>
 
-<<<<<<< HEAD
 <div class="container">
 
-    <div class="card">
+    <div class="header">
 
-        <h1>💰 Deposit Money</h1>
+        <h1>Deposit Money</h1>
 
-        <p class="subtitle">
+        <p>
             Add money to your POS wallet
         </p>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <a href="{{ url_for('dashboard') }}">
+            Back to Dashboard
+        </a>
 
-            {% if messages %}
+    </div>
 
-                {% for category, message in messages %}
 
-                    <div class="message {% if category == 'success' %}success{% endif %}">
-                        {{ message }}
-                    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
 
-                {% endfor %}
+        {% if messages %}
 
-            {% endif %}
+            {% for category, message in messages %}
 
-        {% endwith %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
 
-        <form method="POST" action="{{ url_for('deposit') }}">
+            {% endfor %}
 
-            <label for="amount">
-                Deposit Amount (₦)
-            </label>
+        {% endif %}
 
-            <input
-                type="number"
-                id="amount"
-                name="amount"
-                placeholder="Enter amount"
-                min="1"
-                step="0.01"
-                required
+    {% endwith %}
+
+
+    <div class="card">
+
+        <h2>Deposit Money</h2>
+
+        <p>
+            Add money securely to your wallet.
+        </p>
+
+
+        <div class="balance">
+
+            <div class="balance-title">
+                Current Wallet Balance
+            </div>
+
+            <div class="balance-amount">
+                &#8358;{{ "{:,.2f}".format(current_user.wallet_balance|default(0)) }}
+            </div>
+
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('deposit') }}"
+        >
+
+            <div class="form-group">
+
+                <label for="amount">
+                    Deposit Amount (Naira)
+                </label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    min="1"
+                    step="0.01"
+                    placeholder="Enter amount"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="transaction_pin">
+                    Transaction PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="transaction_pin"
+                    name="transaction_pin"
+                    maxlength="6"
+                    placeholder="Enter transaction PIN"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter description"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn"
             >
-
-            <label for="transaction_pin">
-                Transaction PIN
-            </label>
-
-            <input
-                type="password"
-                id="transaction_pin"
-                name="transaction_pin"
-                placeholder="Enter transaction PIN"
-                maxlength="6"
-                autocomplete="off"
-            >
-
-            <label for="description">
-                Description
-            </label>
-
-            <textarea
-                id="description"
-                name="description"
-                placeholder="Enter deposit description (optional)"
-            ></textarea>
-
-            <button type="submit">
                 Deposit Money
             </button>
 
+
+            <a
+                href="{{ url_for('wallet') }}"
+                class="cancel"
+            >
+                Cancel
+            </a>
+
         </form>
 
-        <div class="back">
-            <a href="{{ url_for('dashboard') }}">
-                ← Back to Dashboard
-            </a>
+
+        <div class="notice">
+
+            <strong>Security Notice</strong>
+
+            <br>
+
+            Never share your transaction PIN with another person.
+            Make sure the amount is correct before confirming your deposit.
+
         </div>
 
     </div>
 
+
+    <footer>
+        Copyright 2026 POS Transaction Web App
+        <br>
+        Secure Wallet Management
+    </footer>
+
 </div>
 
 </body>
-
 </html>
-=======
-    <!-- HEADER -->
-    <header class="header">
-
-        <h1>💳 POS Transaction</h1>
-
-        <a href="{{ url_for('dashboard') }}">
-            Dashboard
-        </a>
-
-    </header>
-
-
-    <!-- MAIN -->
-    <main class="container">
-
-        <div class="card">
-
-            <!-- HEADER -->
-            <div class="card-header">
-
-                <div class="deposit-icon">
-                    💰
-                </div>
-
-                <h2>Deposit Money</h2>
-
-                <p>
-                    Add money securely to your wallet.
-                </p>
-
-            </div>
-
-
-            <!-- FLASH MESSAGES -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-
-                {% if messages %}
-
-                    <div class="flash-container">
-
-                        {% for category, message in messages %}
-
-                            <div class="flash {{ category }}">
-                                {{ message }}
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% endif %}
-
-            {% endwith %}
-
-
-            <!-- CURRENT BALANCE -->
-            <div class="balance-box">
-
-                <p>
-                    Current Wallet Balance
-                </p>
-
-                <strong>
-                    ₦{{ "{:,.2f}".format(current_user.wallet_balance or 0) }}
-                </strong>
-
-            </div>
-
-
-            <!-- DEPOSIT FORM -->
-            <form method="POST"
-                  action="{{ url_for('deposit') }}">
-
-                <!-- AMOUNT -->
-                <div class="form-group">
-
-                    <label for="amount">
-                        Deposit Amount (₦)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        min="1"
-                        step="0.01"
-                        placeholder="Enter amount"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- TRANSACTION PIN -->
-                <div class="form-group">
-
-                    <label for="transaction_pin">
-                        Transaction PIN
-                    </label>
-
-                    <input
-                        type="password"
-                        id="transaction_pin"
-                        name="transaction_pin"
-                        minlength="4"
-                        maxlength="6"
-                        inputmode="numeric"
-                        placeholder="Enter transaction PIN"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- DESCRIPTION -->
-                <div class="form-group">
-
-                    <label for="description">
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Enter deposit description (optional)"
-                    ></textarea>
-
-                </div>
-
-
-                <!-- SUBMIT -->
-                <button
-                    type="submit"
-                    class="deposit-button">
-
-                    💰 Deposit Money
-
-                </button>
-
-            </form>
-
-
-            <!-- CANCEL -->
-            <a href="{{ url_for('wallet') }}"
-               class="cancel-button">
-
-                Cancel
-
-            </a>
-
-
-            <!-- SECURITY -->
-            <div class="security">
-
-                <h3>🔒 Security Notice</h3>
-
-                <p>
-                    Never share your transaction PIN with another
-                    person. Make sure the amount is correct before
-                    confirming your deposit.
-                </p>
-
-            </div>
-
-        </div>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer>
-
-        <p>
-            © 2026 POS Transaction Web App
-        </p>
-
-        <p>
-            Secure Wallet Management
-        </p>
-
-    </footer>
-
-</body>
-</html>
-Make sure app.py has the matching route
-
-Your Flask route should look approximately like this:
-
-@app.route("/deposit", methods=["GET", "POST"])
-@login_required
-def deposit():
-
-    if request.method == "POST":
-
-        amount = float(request.form.get("amount", 0))
-        transaction_pin = request.form.get("transaction_pin", "")
-        description = request.form.get("description", "")
-
-        if amount <= 0:
-            flash("Please enter a valid deposit amount.", "danger")
-            return redirect(url_for("deposit"))
-
-        # Your PIN verification should be done here.
-        # Do not store transaction PINs as plain text.
-
-        current_user.wallet_balance += amount
-
-        db.session.commit()
-
-        flash(
-            f"Deposit of ₦{amount:,.2f} successful.",
-            "success"
-        )
-
-        return redirect(url_for("balance"))
-
-    return render_template("deposit.html")
-
-Important: If your existing app.py already has a deposit() route, don't add a second one. Keep the existing route and make sure its form field names match:
-
-amount
-transaction_pin
-description
-
-Also, for a real-money application, don't rely on a client-side form to enforce balances, PIN rules, or transaction authorization; those checks must happen server-side.
->>>>>>> 08d2188dd4c172c47445074940c34dd4ad119ebe
